@@ -36,8 +36,8 @@ defmodule P2Testing.Disasm do
        "#{:io_lib.format('~7.2.0b', [instr])} " <>
        "#{:io_lib.format('~3.2.0b', [czi])} " <>
        "#{:io_lib.format('~9.2.0b', [a])} " <> "#{:io_lib.format('~9.2.0b', [b])}",
-     disasm_c(<<conditional::size(4)>>),
-     disasm_instr(<<instr::size(7), czi::size(3), a::size(9), b::size(9)>>)}
+#     disasm_c(<<conditional::size(4)>>),
+     disasm_instr(<<conditional::size(4), instr::size(7), czi::size(3), a::size(9), b::size(9)>>)}
   end
 
   def disasm_c(<<0b0000::size(4)>>), do: "_RET_"
@@ -57,7 +57,7 @@ defmodule P2Testing.Disasm do
   def disasm_c(<<0b1110::size(4)>>), do: "IF_C_OR_Z"
   def disasm_c(<<0b1111::size(4)>>), do: ""
 
-  def hex(x), do: :io_lib.format('~.16.0b', [x])
+  def hex(x), do: "$#{:io_lib.format('~.16.0b', [x])}"
   def ref?(0), do: ""
   def ref?(1), do: "#"
   def wcz?(0,0), do: ""
@@ -66,23 +66,27 @@ defmodule P2Testing.Disasm do
   def wcz?(1,1), do: "WCZ"
   def callr?(0), do: ""
   def callr?(1), do: "$+"
-  def hubpc(a), do: hex(div(a, 4) + 1)	## CHECK the theory behind div 4 plus 1
+
+  def relhubpc(r,a),  do: "##{callr?(r)}#{hubpc(a)}"
+  def hubpc(a),  do: hex(div(a, 4) + 1)	## CHECK the theory behind div 4 plus 1
+  def fnOptRefAddr(flag,addr), do: "#{ref?(flag)}#{hex(addr)}"
+  def fnAbsAddr(addr), do: hex(addr)
 
 
   ## Drag this addr weirdness **CHECK the 1 OFFSET**
-  def disasm_instr(<<0b1101101::size(7), r::size(1), a::size(20)>>),                                              do: ["CALL",    "##{callr?(r)}$#{hubpc(a)}", "",                     ""       ]
+  def disasm_instr(<<cnd::size(4), 0b1101101::size(7), r::size(1), a::size(20)>>),                                              do: [disasm_c(<<cnd::size(4)>>), "CALL",    relhubpc(r,a),     "",                ""       ]
 
-  def disasm_instr(<<0b1011001::size(7), c::size(1), z::size(1), i::size(1), d::size(9), s::size(9)>>),           do: ["CALLD",   "$#{hex(d)}",                "#{ref?(i)}$#{hex(s)}", wcz?(c,z)]
+  def disasm_instr(<<cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1), d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   fnAbsAddr(d),      fnOptRefAddr(i,s), wcz?(c,z)]
 
-  def disasm_instr(<<0b0110000::size(7), c::size(1), z::size(1), i::size(1), d::size(9), s::size(9)>>),           do: ["MOV",     "$#{hex(d)}",                "#{ref?(i)}$#{hex(s)}", wcz?(c,z)]
-  def disasm_instr(<<0b0000000::size(7), c::size(1), z::size(1), i::size(1), d::size(9), s::size(9)>>),           do: ["ROR",     "$#{hex(d)}",                "#{ref?(i)}$#{hex(s)}", wcz?(c,z)]
+  def disasm_instr(<<cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1), d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     fnAbsAddr(d),      fnOptRefAddr(i,s), wcz?(c,z)]
+  def disasm_instr(<<cnd::size(4), 0b0000000::size(7), c::size(1), z::size(1), i::size(1), d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ROR",     fnAbsAddr(d),      fnOptRefAddr(i,s), wcz?(c,z)]
 
-  def disasm_instr(<<0b1100011::size(7), 0::size(1), l::size(1), i::size(1), d::size(9), s::size(9)>>),           do: ["WRLONG",  "#{ref?(l)}#{hex(d)}",       "#{ref?(i)}$#{hex(s)}", ""       ]
-  def disasm_instr(<<0b1100011::size(7), 0::size(1), l::size(1), 1::size(1), d::size(9), 0b101100001::size(9)>>), do: ["PUSHA",   "#{ref?(l)}#{hex(d)}",       "",                     ""       ]
-  def disasm_instr(<<0b1100011::size(7), 0::size(1), l::size(1), 1::size(1), d::size(9), 0b111100001::size(9)>>), do: ["PUSHB",   "#{ref?(l)}#{hex(d)}",       "",                     ""       ]
+  def disasm_instr(<<cnd::size(4), 0b1100011::size(7), 0::size(1), l::size(1), 1::size(1), d::size(9), 0b101100001::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "PUSHA",   fnOptRefAddr(l,d), "",                ""       ]
+  def disasm_instr(<<cnd::size(4), 0b1100011::size(7), 0::size(1), l::size(1), 1::size(1), d::size(9), 0b111100001::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "PUSHB",   fnOptRefAddr(l,d), "",                ""       ]
+  def disasm_instr(<<cnd::size(4), 0b1100011::size(7), 0::size(1), l::size(1), i::size(1), d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "WRLONG",  fnOptRefAddr(l,d), fnOptRefAddr(i,s), ""       ]
 
-  def disasm_instr(<<0b1101011::size(7), c::size(1), 0::size(1), l::size(1), d::size(9), 0b000000001::size(9)>>), do: ["COGID",   "#{ref?(l)}#{hex(d)}",       "",                     wcz?(c,0)]
-  def disasm_instr(<<0b1101011::size(7), 0::size(1), 0::size(1), l::size(1), d::size(9), 0b000000011::size(9)>>), do: ["COGSTOP", "#{ref?(l)}#{hex(d)}",       "",                     ""       ]
+  def disasm_instr(<<cnd::size(4), 0b1101011::size(7), c::size(1), 0::size(1), l::size(1), d::size(9), 0b000000001::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "COGID",   fnOptRefAddr(l,d), "",                wcz?(c,0)]
+  def disasm_instr(<<cnd::size(4), 0b1101011::size(7), 0::size(1), 0::size(1), l::size(1), d::size(9), 0b000000011::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "COGSTOP", fnOptRefAddr(l,d), "",                ""       ]
 
   #   P2Testing.Disasm.Macros.t7czids({0,0,0,0,0,0})
 
