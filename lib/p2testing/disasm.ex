@@ -1,0 +1,93 @@
+defmodule P2Testing.Disasm do
+  def disasm(<< 0b00000000000000000000000000000000 :: size(32) >>), do: "NOP"
+
+
+
+
+  def disasm(<< conditional :: size(4), instr :: size(10), a :: size(9), b :: size(9)>>) do
+    IO.inspect({conditional, instr,  a, b})
+    disasm_c(<<conditional :: size(4)>>) |> IO.inspect
+#    disasm_instr(<<instr :: size(10)>>) |> IO.inspect
+  end
+
+  def disasm_c(<<0b0000 :: size(4) >>), do: "_RET_"
+  def disasm_c(<<0b0001 :: size(4) >>), do: "IF_NC_AND_NZ"
+  def disasm_c(<<0b0010 :: size(4) >>), do: "IF_NC_AND_Z"
+  def disasm_c(<<0b0011 :: size(4) >>), do: "IF_NC"
+  def disasm_c(<<0b0100 :: size(4) >>), do: "IF_C_AND_NZ"
+  def disasm_c(<<0b0101 :: size(4) >>), do: "IF_NZ"
+  def disasm_c(<<0b0110 :: size(4) >>), do: "IF_C_NE_Z"
+  def disasm_c(<<0b0111 :: size(4) >>), do: "IF_NC_OR_NZ"
+  def disasm_c(<<0b1000 :: size(4) >>), do: "IF_C_AND_Z"
+  def disasm_c(<<0b1001 :: size(4) >>), do: "IF_C_EQ_Z"
+  def disasm_c(<<0b1010 :: size(4) >>), do: "IF_Z"
+  def disasm_c(<<0b1011 :: size(4) >>), do: "IF_NC_OR_Z"
+  def disasm_c(<<0b1100 :: size(4) >>), do: "IF_C"
+  def disasm_c(<<0b1101 :: size(4) >>), do: "IF_C_OR_NZ"
+  def disasm_c(<<0b1110 :: size(4) >>), do: "IF_C_OR_Z"
+  def disasm_c(<<0b1111 :: size(4) >>), do: ""
+  def disasm_c(_), do: "EEEE"
+
+  def disasm_czi_instr(<<0b0000000 :: size(7), czi :: size(3)>>), do: "ROR"
+  def disasm_czi_instr(<<0b0000001 :: size(7), czi :: size(3)>>), do: "ROL"
+  def disasm_czi_instr(<<0b0000010 :: size(7), czi :: size(3)>>), do: "SHR"
+  def disasm_czi_instr(<<0b0000011 :: size(7), czi :: size(3)>>), do: "SHL"
+  def disasm_czi_instr(<<0b0000100 :: size(7), czi :: size(3)>>), do: "RCR"
+  def disasm_czi_instr(<<0b0000101 :: size(7), czi :: size(3)>>), do: "RCL"
+  def disasm_czi_instr(<<0b0000110 :: size(7), czi :: size(3)>>), do: "SAR"
+  def disasm_czi_instr(<<0b0000111 :: size(7), czi :: size(3)>>), do: "SAL"
+  def disasm_czi_instr(<<0b0001000 :: size(7), czi :: size(3)>>), do: "ADD"
+  def disasm_czi_instr(<<0b0001001 :: size(7), czi :: size(3)>>), do: "ADDX"
+  def disasm_czi_instr(<<0b0001010 :: size(7), czi :: size(3)>>), do: "ADDS"
+  def disasm_czi_instr(<<0b0001011 :: size(7), czi :: size(3)>>), do: "ADDSX"
+  def disasm_czi_instr(<<0b0001100 :: size(7), czi :: size(3)>>), do: "SUB"
+  def disasm_czi_instr(<<0b0001101 :: size(7), czi :: size(3)>>), do: "SUBX"
+  def disasm_czi_instr(<<0b0001110 :: size(7), czi :: size(3)>>), do: "SUBS"
+  def disasm_czi_instr(<<0b0001111 :: size(7), czi :: size(3)>>), do: "SUBSX"
+  def disasm_czi_instr(<<0b0010000 :: size(7), czi :: size(3)>>), do: "CMP"
+  def disasm_czi_instr(<<0b0010001 :: size(7), czi :: size(3)>>), do: "CMPX"
+  def disasm_czi_instr(<<0b0010010 :: size(7), czi :: size(3)>>), do: "CMPS"
+  def disasm_czi_instr(<<0b0010011 :: size(7), czi :: size(3)>>), do: "CMPSX"
+  def disasm_czi_instr(<<0b0010100 :: size(7), czi :: size(3)>>), do: "CMPR"
+  def disasm_czi_instr(<<0b0010101 :: size(7), czi :: size(3)>>), do: "CMPM"
+  def disasm_czi_instr(<<0b0010110 :: size(7), czi :: size(3)>>), do: "SUBR"
+  def disasm_czi_instr(<<0b0010111 :: size(7), czi :: size(3)>>), do: "CMPSUB"
+  def disasm_czi_instr(<<0b0011000 :: size(7), czi :: size(3)>>), do: "FGE"
+  def disasm_czi_instr(<<0b0011001 :: size(7), czi :: size(3)>>), do: "FLE"
+  def disasm_czi_instr(<<0b0011010 :: size(7), czi :: size(3)>>), do: "FGES"
+  def disasm_czi_instr(<<0b0011011 :: size(7), czi :: size(3)>>), do: "FLES"
+  def disasm_czi_instr(<<0b0011100 :: size(7), czi :: size(3)>>), do: "SUMC"
+  def disasm_czi_instr(<<0b0011101 :: size(7), czi :: size(3)>>), do: "SUMNC"
+  def disasm_czi_instr(<<0b0011110 :: size(7), czi :: size(3)>>), do: "SUMZ"
+  def disasm_czi_instr(<<0b0011111 :: size(7), czi :: size(3)>>), do: "SUMNZ"
+  def disasm_czi_instr(<<0b0100000 :: size(7), czi :: size(3)>>), do: "TESTB"
+  def disasm_czi_instr(<<0b0100001 :: size(7), czi :: size(3)>>), do: "TESTBN"
+  def disasm_czi_instr(<<0b0100010 :: size(7), czi :: size(3)>>), do: "TESTB"
+  def disasm_czi_instr(<<0b0100011 :: size(7), czi :: size(3)>>), do: "TESTBN"
+  def disasm_czi_instr(<<0b0100100 :: size(7), czi :: size(3)>>), do: "TESTB"
+  def disasm_czi_instr(<<0b0100101 :: size(7), czi :: size(3)>>), do: "TESTBN"
+  def disasm_czi_instr(<<0b0100110 :: size(7), czi :: size(3)>>), do: "TESTB"
+  def disasm_czi_instr(<<0b0100111 :: size(7), czi :: size(3)>>), do: "TESTBN"
+  def disasm_czi_instr(<<0b0100000 :: size(7), czi :: size(3)>>), do: "BITL"
+  def disasm_czi_instr(<<0b0100001 :: size(7), czi :: size(3)>>), do: "BITH"
+  def disasm_czi_instr(<<0b0100010 :: size(7), czi :: size(3)>>), do: "BITC"
+  def disasm_czi_instr(<<0b0100011 :: size(7), czi :: size(3)>>), do: "BITNC"
+  def disasm_czi_instr(<<0b0100100 :: size(7), czi :: size(3)>>), do: "BITZ"
+  def disasm_czi_instr(<<0b0100101 :: size(7), czi :: size(3)>>), do: "BITNZ"
+  def disasm_czi_instr(<<0b0100110 :: size(7), czi :: size(3)>>), do: "BITRND"
+  def disasm_czi_instr(<<0b0100111 :: size(7), czi :: size(3)>>), do: "BITNOT"
+  def disasm_czi_instr(<<0b0101000 :: size(7), czi :: size(3)>>), do: "AND"
+  def disasm_czi_instr(<<0b0101001 :: size(7), czi :: size(3)>>), do: "ANDN"
+  def disasm_czi_instr(<<0b0101010 :: size(7), czi :: size(3)>>), do: "OR"
+  def disasm_czi_instr(<<0b0101011 :: size(7), czi :: size(3)>>), do: "XOR"
+  def disasm_czi_instr(<<0b0101100 :: size(7), czi :: size(3)>>), do: "MUXC"
+  def disasm_czi_instr(<<0b0101101 :: size(7), czi :: size(3)>>), do: "MUXNC"
+  def disasm_czi_instr(<<0b0101110 :: size(7), czi :: size(3)>>), do: "MUXZ"
+  def disasm_czi_instr(<<0b0101111 :: size(7), czi :: size(3)>>), do: "MUXNZ"
+  def disasm_czi_instr(<<0b0110000 :: size(7), czi :: size(3)>>), do: "MOV"
+  def disasm_czi_instr(<<0b0110001 :: size(7), czi :: size(3)>>), do: "NOT"
+
+
+
+
+end
