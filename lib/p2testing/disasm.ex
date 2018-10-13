@@ -2,9 +2,44 @@ require P2Testing.Disasm.Macros
 
 defmodule P2Testing.Disasm do
   ## OpCodes in the format 4,7,1,1,1,9,9
-  def disasm_instr(<<0b0000::size(4), 0b0000000::size(7), 0::size(1), 0::size(1), 0::size(1), 0b000000000::size(9), 0b000000000::size(9)>>), do: ["",                         "NOP",     "",            "",          ""       ]
-  def disasm_instr(<<   cnd::size(4), 0b0000000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ROR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)]
-  def disasm_instr(<<   cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     iVal(0,d),     iVal(i,s),   wcz?(c,z)]
+  def disasm_instr(<<0b0000::size(4), 0b0000000::size(7), 0::size(1), 0::size(1), 0::size(1), 0b000000000::size(9), 0b000000000::size(9)>>), do: ["",                         "NOP",     "",            "",          ""       ] #2
+  def disasm_instr(<<   cnd::size(4), 0b0000000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ROR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #3
+  def disasm_instr(<<   cnd::size(4), 0b0000001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ROL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
+  def disasm_instr(<<   cnd::size(4), 0b0000010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SHR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #5
+  def disasm_instr(<<   cnd::size(4), 0b0000011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SHL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #6
+  def disasm_instr(<<   cnd::size(4), 0b0000100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RCR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #7
+  def disasm_instr(<<   cnd::size(4), 0b0000101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RCL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #8
+  def disasm_instr(<<   cnd::size(4), 0b0000110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SAR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #9
+  def disasm_instr(<<   cnd::size(4), 0b0000111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SAL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #10
+
+  def disasm_instr(<<   cnd::size(4), 0b0001000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #11
+  def disasm_instr(<<   cnd::size(4), 0b0001001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADDX",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #12
+  def disasm_instr(<<   cnd::size(4), 0b0001010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADDS",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #13
+  def disasm_instr(<<   cnd::size(4), 0b0001011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADDSX",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #14
+  def disasm_instr(<<   cnd::size(4), 0b0001100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUB",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #15
+  def disasm_instr(<<   cnd::size(4), 0b0001101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBX",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #16
+  def disasm_instr(<<   cnd::size(4), 0b0001110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBS",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #17
+  def disasm_instr(<<   cnd::size(4), 0b0001111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBSX",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #18
+
+  def disasm_instr(<<   cnd::size(4), 0b0010000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMP",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #19
+  def disasm_instr(<<   cnd::size(4), 0b0010001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPX",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #20
+  def disasm_instr(<<   cnd::size(4), 0b0010010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPS",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #21
+  def disasm_instr(<<   cnd::size(4), 0b0010011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPSX",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #22
+  def disasm_instr(<<   cnd::size(4), 0b0010100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPR",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #23
+  def disasm_instr(<<   cnd::size(4), 0b0010101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPM",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #24
+  def disasm_instr(<<   cnd::size(4), 0b0010110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBR",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #25
+  def disasm_instr(<<   cnd::size(4), 0b0010111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMPSUB",  iVal(0,d),     iVal(i,s),   wcz?(c,z)] #26
+  def disasm_instr(<<   cnd::size(4), 0b0011000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "FGE",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #27
+  def disasm_instr(<<   cnd::size(4), 0b0011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "FLE",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #28
+  def disasm_instr(<<   cnd::size(4), 0b0011010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "FGES",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #29
+  def disasm_instr(<<   cnd::size(4), 0b0011011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "FLES",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #30
+  def disasm_instr(<<   cnd::size(4), 0b0011100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMC",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #31
+  def disasm_instr(<<   cnd::size(4), 0b0011101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMNC",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #32
+  def disasm_instr(<<   cnd::size(4), 0b0011110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMZ",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #33
+  def disasm_instr(<<   cnd::size(4), 0b0011111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #34
+
+  def disasm_instr(<<   cnd::size(4), 0b0000011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SHL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #6
+  def disasm_instr(<<   cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111110000::size(9), 0b111110001::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RESI3",   "",            "",          ""       ]
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111110010::size(9), 0b111110011::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RESI2",   "",            "",          ""       ]
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111110100::size(9), 0b111110101::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RESI1",   "",            "",          ""       ]
