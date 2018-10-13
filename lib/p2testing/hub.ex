@@ -11,9 +11,9 @@ defmodule P2Testing.Hub do
   end
 
   def genmem do
-    Range.new(1,(512*1024))
-    |> Enum.reduce([], fn(_,acc) -> [0|acc] end)
-    |> :binary.list_to_bin
+    Range.new(1, 512 * 1024)
+    |> Enum.reduce([], fn _, acc -> [0 | acc] end)
+    |> :binary.list_to_bin()
   end
 
   def boot(filename) do
@@ -24,15 +24,12 @@ defmodule P2Testing.Hub do
 
     validate_checksum(data, 0)
   end
-    
+
   def validate_checksum(<<>>, acc) do
     acc &&& 0xFFFFFFFF
   end
-  def validate_checksum(<< addme :: signed-integer-big-size(32), rest :: binary>>, acc) do
-    validate_checksum(rest, ((addme + acc) &&& 0xFFFFFFFF))
+
+  def validate_checksum(<<addme::signed-integer-big-size(32), rest::binary>>, acc) do
+    validate_checksum(rest, addme + acc &&& 0xFFFFFFFF)
   end
-
-
-
-
 end
