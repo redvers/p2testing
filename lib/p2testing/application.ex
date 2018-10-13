@@ -9,7 +9,8 @@ defmodule P2testing.Application do
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: P2testing.Worker.start_link(arg)
-      {P2Testing.CNT, [:ok]}
+      {P2Testing.CNT, [:ok]},
+      {P2Testing.Hub, [:ok]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
