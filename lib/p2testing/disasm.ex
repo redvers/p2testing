@@ -1,3 +1,4 @@
+require P2Testing.Disasm.Macros
 defmodule P2Testing.Disasm do
   def dfile(filename) do
     {:ok, filepid} = File.open(filename, [:binary, :read])
@@ -99,11 +100,7 @@ defmodule P2Testing.Disasm do
   ## ROR
   def disasm_instr(<<0b0000000 :: size(7), c :: size(1), z :: size(1), i :: size(1), d :: size(9), s :: size(9)>>), do: "ROR #{hex(d)}, #{ref?(i)}$#{hex(s)} #{wc?(c)} #{wz?(z)}"
 
-
-
-
-
-
+   P2Testing.Disasm.Macros.t7czids({0,0,0,0,0,0})
 
 
 
