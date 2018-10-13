@@ -29,7 +29,6 @@ defmodule P2Testing.Disasm do
   end
 
   ## NOP - the global hard-coded
-  def disasm(<<0b00000000000000000000000000000000::size(32)>>), do: "0000 0000000 000 NOP"
 
   def disasm(<<conditional::size(4), instr::size(7), czi::size(3), a::size(9), b::size(9)>>) do
     {"#{:io_lib.format('~4.2.0b', [conditional])} " <>
@@ -74,6 +73,7 @@ defmodule P2Testing.Disasm do
 
 
   ## Drag this addr weirdness **CHECK the 1 OFFSET**
+  def disasm_instr(<<0b00000000000000000000000000000000::size(32)>>),                                                           do: ["",                         "NOP",     "",                "",                ""       ]
   def disasm_instr(<<cnd::size(4), 0b1101101::size(7), r::size(1), a::size(20)>>),                                              do: [disasm_c(<<cnd::size(4)>>), "CALL",    relhubpc(r,a),     "",                ""       ]
 
   def disasm_instr(<<cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1), d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   fnAbsAddr(d),      fnOptRefAddr(i,s), wcz?(c,z)]
