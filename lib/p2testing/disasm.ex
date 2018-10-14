@@ -37,6 +37,15 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0011110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMZ",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #33
   def disasm_instr(<<   cnd::size(4), 0b0011111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #34
 
+  def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITL",    iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #43
+  def disasm_instr(<<   cnd::size(4), 0b0100001::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITH",    iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #44
+  def disasm_instr(<<   cnd::size(4), 0b0100010::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITC",    iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #45
+  def disasm_instr(<<   cnd::size(4), 0b0100011::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNC",   iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #46
+  def disasm_instr(<<   cnd::size(4), 0b0100100::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITZ",    iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #47
+  def disasm_instr(<<   cnd::size(4), 0b0100101::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNZ",   iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #48
+  def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITRND",  iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #49
+  def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNOT",  iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #50
+
   def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #35
   def disasm_instr(<<   cnd::size(4), 0b0100001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #36
   def disasm_instr(<<   cnd::size(4), 0b0100010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   andcz?(c,z)] #37
@@ -46,14 +55,6 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #41
   def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #42
 
-  def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITL",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #43
-  def disasm_instr(<<   cnd::size(4), 0b0100001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITH",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #44
-  def disasm_instr(<<   cnd::size(4), 0b0100010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITC",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #45
-  def disasm_instr(<<   cnd::size(4), 0b0100011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNC",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #46
-  def disasm_instr(<<   cnd::size(4), 0b0100100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITZ",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #47
-  def disasm_instr(<<   cnd::size(4), 0b0100101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #48
-  def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITRND",  iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #49
-  def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNOT",  iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #50
 
   def disasm_instr(<<   cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
