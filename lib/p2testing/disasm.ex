@@ -55,6 +55,14 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #41
   def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #42
 
+  def disasm_instr(<<   cnd::size(4), 0b0101000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "AND",     iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #51
+  def disasm_instr(<<   cnd::size(4), 0b0101001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ANDN",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #52
+  def disasm_instr(<<   cnd::size(4), 0b0101010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "OR",      iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #53
+  def disasm_instr(<<   cnd::size(4), 0b0101011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "XOR",     iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #54
+  def disasm_instr(<<   cnd::size(4), 0b0101100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MUXC",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #55
+  def disasm_instr(<<   cnd::size(4), 0b0101101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MUXNC",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #56
+  def disasm_instr(<<   cnd::size(4), 0b0101110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MUXZ",    iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #57
+  def disasm_instr(<<   cnd::size(4), 0b0101111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MUXNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #58
 
   def disasm_instr(<<   cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
