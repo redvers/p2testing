@@ -21,14 +21,11 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0000111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SAL",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #10
   #-                   EEEE             0001000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ADD     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0001000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #11
+
+
+
   #-                   EEEE             0001001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ADDX    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0001001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADDX",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #12
-
-
-
-
-
-
   #-                   EEEE             0001010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ADDS    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0001010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ADDS",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #13
   #-                   EEEE             0001011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ADDSX   D,{#}S   {WC/WZ/WCZ}
@@ -41,6 +38,9 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0001110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBS",    iVal(0,d),     iVal(i,s),   wcz?(c,z)] #17
   #-                   EEEE             0001111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                SUBSX   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0001111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUBSX",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #18
+
+
+
   #-                   EEEE             0010000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CMP     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0010000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CMP",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #19
   #-                   EEEE             0010001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CMPX    D,{#}S   {WC/WZ/WCZ}
@@ -75,26 +75,8 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0011111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SUMNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)] #34
 
 
-  #-                   EEEE             0100000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S         WC/WZ
-  def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #35
-  #-                   EEEE             0100001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S         WC/WZ
-  def disasm_instr(<<   cnd::size(4), 0b0100001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #36
-  #-                   EEEE             0100010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S     ANDC/ANDZ
-  def disasm_instr(<<   cnd::size(4), 0b0100010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   andcz?(c,z)] #37
-  #-                   EEEE             0100011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S     ANDC/ANDZ
-  def disasm_instr(<<   cnd::size(4), 0b0100011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   andcz?(c,z)] #38
-  #-                   EEEE             0100100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S       ORC/ORZ
-  def disasm_instr(<<   cnd::size(4), 0b0100100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   orcz?(c,z) ] #39
-  #-                   EEEE             0100101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S       ORC/ORZ
-  def disasm_instr(<<   cnd::size(4), 0b0100101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   orcz?(c,z) ] #40
-  #-                   EEEE             0100110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S     XORC/XORZ
-  def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #41
-  #-                   EEEE             0100111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S     XORC/XORZ
-  def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #42
 
-
-
-
+  ## If C == Z, then this block is selected.
   #-                   EEEE             0100000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                BITL    D,{#}S         {WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITL",    iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #43
   #-                   EEEE             0100001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                BITH    D,{#}S         {WCZ}
@@ -111,6 +93,24 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITRND",  iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #49
   #-                   EEEE             0100111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                BITNOT  D,{#}S         {WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), x::size(1), x::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "BITNOT",  iVal(0,d),     iVal(i,s),   wcz?(x,x)  ] #50
+
+  ## If C != Z, then this block is selected
+  #-                   EEEE             0100000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S         WC/WZ
+  def disasm_instr(<<   cnd::size(4), 0b0100000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #35
+  #-                   EEEE             0100001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S         WC/WZ
+  def disasm_instr(<<   cnd::size(4), 0b0100001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #36
+  #-                   EEEE             0100010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S     ANDC/ANDZ
+  def disasm_instr(<<   cnd::size(4), 0b0100010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   andcz?(c,z)] #37
+  #-                   EEEE             0100011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S     ANDC/ANDZ
+  def disasm_instr(<<   cnd::size(4), 0b0100011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   andcz?(c,z)] #38
+  #-                   EEEE             0100100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S       ORC/ORZ
+  def disasm_instr(<<   cnd::size(4), 0b0100100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   orcz?(c,z) ] #39
+  #-                   EEEE             0100101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S       ORC/ORZ
+  def disasm_instr(<<   cnd::size(4), 0b0100101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   orcz?(c,z) ] #40
+  #-                   EEEE             0100110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTB   D,{#}S     XORC/XORZ
+  def disasm_instr(<<   cnd::size(4), 0b0100110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTB",   iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #41
+  #-                   EEEE             0100111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTBN  D,{#}S     XORC/XORZ
+  def disasm_instr(<<   cnd::size(4), 0b0100111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTBN",  iVal(0,d),     iVal(i,s),   xorcz?(c,z)] #42
 
 
 
@@ -131,11 +131,80 @@ defmodule P2Testing.Disasm do
   #-                   EEEE             0101111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                MUXNZ   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0101111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MUXNZ",   iVal(0,d),     iVal(i,s),   wcz?(c,z)  ] #58
 
+
+
   #-                   EEEE             0110000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                MOV     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "MOV",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
 
 
+  ## Block includes I = 0 clauses
+  #-                   EEEE             0110001           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NOT     D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110001::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NOT",     iVal(0,d),          "",   wcz?(c,z)] 
+  #-                   EEEE             0110001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NOT     D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NOT",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110010           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ABS     D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110010::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ABS",     iVal(0,d),          "",   wcz?(c,z)] 
+  #-                   EEEE             0110010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ABS     D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ABS",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110011           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEG     D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110011::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEG",     iVal(0,d),          "",   wcz?(c,z)] 
+  #-                   EEEE             0110011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEG     D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGC    D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGC",     iVal(0,d),         "",   wcz?(c,z)] 
+  #-                   EEEE             0110100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGC    D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGC",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNC   D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNC",     iVal(0,d),        "",   wcz?(c,z)] 
+  #-                   EEEE             0110101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNC   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGNC",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGZ    D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGZ",     iVal(0,d),         "",   wcz?(c,z)] 
+  #-                   EEEE             0110110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGZ    D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGZ",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0110111           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNZ   D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110111::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNZ",     iVal(0,d),        "",   wcz?(c,z)] 
+  #-                   EEEE             0110111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNZ   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0110111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGNZ",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0111000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                INCMOD  D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "INCMOD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+  #-                   EEEE             0111001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                DECMOD  D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "DECMOD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+  #-                   EEEE             0111010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ZEROX   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ZEROX",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+  #-                   EEEE             0111011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                SIGNX   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SIGNX",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0111100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ENCOD   D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ENCOD",     iVal(0,d),        "",   wcz?(c,z)] 
+  #-                   EEEE             0111100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ENCOD   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ENCOD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0111101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ONES    D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ONES",     iVal(0,d),         "",   wcz?(c,z)] 
+  #-                   EEEE             0111101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ONES    D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ONES",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0111110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                TEST    D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "TEST",     iVal(0,d),         "",   wcz?(c,z)] 
+  #-                   EEEE             0111110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TEST    D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TEST",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+  #-                   EEEE             0111111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTN   D,{#}S   {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b0111111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TESTN",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
+
+
+
+
+  ## CALLD instructions - Note that Hard-Coded addresses have their own OPCODES
   #-                   EEEE             1011001           1           1           0             111110000             111110001                                                RESI3
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111110000::size(9), 0b111110001::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RESI3",   "",            "",          ""       ]
   #-                   EEEE             1011001           1           1           0             111110010             111110011                                                RESI2
@@ -152,37 +221,15 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111111111::size(9), 0b111110101::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RETI1",   "",            "",          ""       ]
   #-                   EEEE             1011001           1           1           0             111111111             111111111                                                RETI0
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111111111::size(9), 0b111111111::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RETI0",   "",            "",          ""       ]
-
-
-
   #-                   EEEE             1011001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CALLD   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),     iVal(i,s),   wcz?(c,z)]
-  #-                   EEEE             0110001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NOT     D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110001           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NOT     D        {WC/WZ/WCZ}
-  #-                   EEEE             0110010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ABS     D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110010           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ABS     D        {WC/WZ/WCZ}
-  #-                   EEEE             0110011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEG     D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110011           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEG     D        {WC/WZ/WCZ}
-  #-                   EEEE             0110100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGC    D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGC    D        {WC/WZ/WCZ}
-  #-                   EEEE             0110101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNC   D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNC   D        {WC/WZ/WCZ}
-  #-                   EEEE             0110110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGZ    D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGZ    D        {WC/WZ/WCZ}
-  #-                   EEEE             0110111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNZ   D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0110111           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNZ   D        {WC/WZ/WCZ}
-  #-                   EEEE             0111000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                INCMOD  D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                DECMOD  D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ZEROX   D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                SIGNX   D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ENCOD   D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ENCOD   D        {WC/WZ/WCZ}
-  #-                   EEEE             0111101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ONES    D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ONES    D        {WC/WZ/WCZ}
-  #-                   EEEE             0111110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TEST    D,{#}S   {WC/WZ/WCZ}
-  #-                   EEEE             0111110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                TEST    D        {WC/WZ/WCZ}
-  #-                   EEEE             0111111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TESTN   D,{#}S   {WC/WZ/WCZ}
+
+
+
+
+
   #-                   EEEE             100000N           N           N           I             DDDDDDDDD             SSSSSSSSS                                                SETNIB  D,{#}S,#N
+  #def disasm_instr(<<   cnd::size(4), 0b101100::size(7),  n::size(3),             i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SETNIB",  iVal(0,d),     iVal(i,s),   wcz?(c,z)]
   #-                   EEEE             1000000           0           0           I             000000000             SSSSSSSSS                                                SETNIB  {#}S
   #-                   EEEE             100001N           N           N           I             DDDDDDDDD             SSSSSSSSS                                                GETNIB  D,{#}S,#N
   #-                   EEEE             1000010           0           0           0             DDDDDDDDD             000000000                                                GETNIB  D
