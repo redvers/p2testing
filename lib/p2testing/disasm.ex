@@ -300,6 +300,7 @@ defmodule P2Testing.Disasm do
   #-                   EEEE             1010110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDBYTE  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE             1010111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDWORD  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE             1011000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLONG  D,{#}S/P {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
   #-                   EEEE             1011000           C           Z           1             DDDDDDDDD             101011111                                                POPA    D        {WC/WZ/WCZ}
   #-                   EEEE             1011000           C           Z           1             DDDDDDDDD             111011111                                                POPB    D        {WC/WZ/WCZ}
   #-                   EEEE             1011010           0           L           I             DDDDDDDDD             SSSSSSSSS                                                CALLPA  {#}D,{#}S
@@ -458,7 +459,6 @@ defmodule P2Testing.Disasm do
   #-                   EEEE             1101011           0           0           L             DDDDDDDDD             000101001                                                SETQ2   {#}D
   #-                   EEEE             1101011           0           0           L             DDDDDDDDD             000101010                                                PUSH    {#}D
   #-                   EEEE             1101011           C           Z           0             DDDDDDDDD             000101011                                                POP     D        {WC/WZ/WCZ}
-  #-                   EEEE             1101011           C           Z           0             DDDDDDDDD             000101100                                                JMP     D        {WC/WZ/WCZ}
   #-                   EEEE             1101011           C           Z           0             DDDDDDDDD             000101101                                                CALL    D        {WC/WZ/WCZ}
   #-                   EEEE             1101011           C           Z           1             000000000             000101101                                                RET              {WC/WZ/WCZ}
   #-                   EEEE             1101011           C           Z           0             DDDDDDDDD             000101110                                                CALLA   D        {WC/WZ/WCZ}
@@ -543,7 +543,25 @@ defmodule P2Testing.Disasm do
   #-                   EEEE             1101011           C           Z           1             0cccczzzz             001101111                                                MODCZ   c,z      {WC/WZ/WCZ}
   #-                   EEEE             1101011           C           0           1             0cccc0000             001101111                                                MODC    c               {WC}
   #-                   EEEE             1101011           0           Z           1             00000zzzz             001101111                                                MODZ    z               {WZ}
+
+
+
   #-                   EEEE             1101100           R           A           A             AAAAAAAAA             AAAAAAAAA                                                JMP     #A
+  def jmpa(r,a),  do: "##{calr?(r,a)}#{iVl(0,a+4)}"
+  def calr?(0,_), do: ""
+  def calr?(1,a) when a < 0, do: "$-"
+  def calr?(1,a), do: "$+"
+  def iVl(flag,addr), do: "#{ref?(flag)}#{hx(abs(addr))}"
+  def hx(x) when abs(x) < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
+  def hx(x),             do: "$#{:io_lib.format('~.16.0b', [x])}"
+  def hex(x) when abs(x) < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
+  def hex(x),             do: "$#{:io_lib.format('~.16.0b', [x])}"
+  def disasm_instr(<<   cnd::size(4), 0b1101100::size(7), r::size(1), a::signed-size(20)>>),  do: [disasm_c(<<cnd::size(4)>>), "JMP",     jmpa(r,a),     "",   ""] #4
+  #-                   EEEE             1101011           C           Z           0             DDDDDDDDD             000101100                                                JMP     D        {WC/WZ/WCZ}
+  def disasm_instr(<<   cnd::size(4), 0b1101011::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9), 0b000101100::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "JMP",     iVal(0,d),     "",   wcz?(c,z)] #4
+
+
+
   #-                   EEEE             1101101           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALL    #A
   #-                   EEEE             1101110           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLA   #A
   #-                   EEEE             1101111           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLB   #A
@@ -653,8 +671,6 @@ defmodule P2Testing.Disasm do
   def disasm_c(<<0b1110::size(4)>>), do: "IF_Z_OR_C"
   def disasm_c(<<0b1111::size(4)>>), do: ""
 
-  def hex(x) when x < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
-  def hex(x),             do: "$#{:io_lib.format('~.16.0b', [x])}"
   def ref?(0), do: ""
   def ref?(1), do: "#"
   def wcz?(0,0), do: ""
