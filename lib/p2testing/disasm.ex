@@ -320,8 +320,13 @@ defmodule P2Testing.Disasm do
   #
   #-                   EEEE                    1010111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDWORD  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLONG  D,{#}S/P {WC/WZ/WCZ}
-  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>) when s > 0xff, do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d),   "#{s}",   wcz?(c,z)] #4
-  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
+  ### Do I enable these?
+  #  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>) when s > 0xff, do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d),   "#{s}",   wcz?(c,z)] #4
+  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),     iVal(0,s),   wcz?(c,z)] #4
+  def disasm_instr(addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),    "ptra[#{to_signed5(<<s::size(5)>>)}]", wcz?(c,z)]
+  def illl(addrr, flag,addr) when addrr < 0x400, do: "#{ref?(flag)}#{hex(addr)}"
+  def illl(addrr, flag,addr), do: "#{ref?(flag)}#{callr?(flag, (addr*4)+4)}#{iVl(0,(addr))}"
+  def to_signed5(<<s::signed-size(5)>>), do: s
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             101011111                                                POPA    D        {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             111011111                                                POPB    D        {WC/WZ/WCZ}
   #-                   EEEE                    1011010           0           L           I             DDDDDDDDD             SSSSSSSSS                                                CALLPA  {#}D,{#}S
