@@ -300,6 +300,7 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1010110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDBYTE  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1010111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDWORD  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLONG  D,{#}S/P {WC/WZ/WCZ}
+  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d), "",   wcz?(c,z)] #4
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             101011111                                                POPA    D        {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             111011111                                                POPB    D        {WC/WZ/WCZ}
@@ -547,15 +548,15 @@ defmodule P2Testing.Disasm do
 
 
   #-                   EEEE                    1101100           R           A           A             AAAAAAAAA             AAAAAAAAA                                                JMP     #A
-  def jmpa(addr,r,a) when addr < 0x400,  do: "##{calr?(r,a)}#{iVl(0,(div(a,4) + 1))}"
-  def jmpa(addr,r,a),                    do: "##{calr?(r,a)}#{iVl(0,a+4)}"
+  def jmpa(addr,r,a) when addr < 0x400,   do: "##{callr?(r,a)}#{iVl(0,(div(a,4) + 1))}"
+  def jmpa(addr,r,a),                     do: "##{callr?(r,a)}#{iVl(0,a+4)}"
 
-  def callr?(0), do: ""
-  def callr?(1), do: "$+"
+  def calla(addr,r,a) when addr < 0x400,  do: "##{callr?(r,a)}#{iVl(0,(div(a,4))+1)}"
+  def calla(addr,r,a),                    do: "#\\#{callr?(r,a)}#{iVl(0,a)}"
 
-  def calr?(0,_), do: ""
-  def calr?(1,a) when a < 0, do: "$-"
-  def calr?(1,a), do: "$+"
+  def callr?(0,_), do: ""
+  def callr?(1,a) when a < 0, do: "$-"
+  def callr?(1,a), do: "$+"
 
   def iVl(flag,addr), do: "#{ref?(flag)}#{hex(abs(addr))}"
   def hex(x) when abs(x) < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
@@ -588,7 +589,7 @@ defmodule P2Testing.Disasm do
 
 
   ## OpCodes in thd format 4,7,1,20
-  def disasm_instr(_addr, <<   cnd::size(4), 0b1101101::size(7), r::size(1),                                   a::size(20)                     >>), do: [disasm_c(<<cnd::size(4)>>), "CALL",    relhubpc(r,a), "",          ""       ]
+  def disasm_instr(addr,  <<   cnd::size(4), 0b1101101::size(7), r::size(1),                                   a::size(20)                     >>), do: [disasm_c(<<cnd::size(4)>>), "CALL",    calla(addr,r,a), "",          ""       ]
 
   ## Invalid instructions are caught here
   def disasm_instr(_,_), do: "disasm_instr: WTF"
@@ -697,7 +698,7 @@ defmodule P2Testing.Disasm do
   def xorcz?(1,0), do: "XORC"
   def xorcz?(1,1), do: "XORERRR"
 
-  def relhubpc(r,a),  do: "##{callr?(r)}#{hubpc(a)}"
+  #  def relhubpc(r,a),  do: "##{callr?(r)}#{hubpc(a)}"
   def hubpc(a),  do: hex(div(a, 4) + 1)	## CHECK the theory behind div 4 plus 1
   def iVal(flag,addr), do: "#{ref?(flag)}#{hex(addr)}"
   def fnAbsAddr(addr), do: hex(addr)
