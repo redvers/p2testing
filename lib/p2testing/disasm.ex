@@ -222,16 +222,20 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1011001           1           1           0             111111111             111111111                                                RETI0
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111111111::size(9), 0b111111111::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RETI0",   "",            "",          ""       ]
   #-                   EEEE                    1011001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CALLD   D,{#}S   {WC/WZ/WCZ}
-  def disasm_instr( addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),            il(addr,i,s), ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),            il(addr,i,to_signed(<<s::size(9)>>)), ""]
+
+  def to_signed(<<s::signed-size(9)>>), do: s
+  def to_signed20(<<s::signed-size(20)>>), do: s
 
   def il(addrr, flag,addr) when addrr < 0x400, do: "#{ref?(flag)}#{hex(addr)}"
-  def il(addrr, flag,addr), do: "XX#{ref?(flag)}#{hex(addr)}"
+  def il(addrr, flag,addr), do: "#{ref?(flag)}#{callr?(flag, (addr*4)+4)}#{iVl(0,(addr*4)+4)}"
+  def il20(addrr, flag,addr) when addrr < 0x400, do: "#{ref?(flag)}#{hex(addr)}"
+  def il20(addrr, flag,addr), do: "#{ref?(flag)}#{callr?(flag, (addr*4)+4)}#{iVl(0,(addr)+4)}"
   
 
   #-                   EEEE                    11100WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLD   PA/PB/PTRA/PTRB,#A
-  def disasm_instr( addr, <<   cnd::size(4), 0b1110000::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f6", jmpa(addr,r,a),            ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110000::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f6", il20(addr,r,to_signed20(<<a::size(20)>>)),            ""]
   def disasm_instr( addr, <<   cnd::size(4), 0b1110001::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLG",   "x", jmpa(addr,r,a),            ""]
-  ## NO EXAMPLES YET  def disasm_instr( addr, <<   cnd::size(4), 0b1110010::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "XCALLH",   "x", jmpa(addr,r,a),            ""]
   def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), 0::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", calla(addr,0,a),            ""]
   def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), 1::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", calld(addr,1,a),            ""]
 
