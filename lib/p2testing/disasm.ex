@@ -222,7 +222,14 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1011001           1           1           0             111111111             111111111                                                RETI0
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111111111::size(9), 0b111111111::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RETI0",   "",            "",          ""       ]
   #-                   EEEE                    1011001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CALLD   D,{#}S   {WC/WZ/WCZ}
-  def disasm_instr(_addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),     iVal(i,s),   wcz?(c,z)]
+  #  def disasm_instr( addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),            calla(addr,i,s),          jmpa(addr,i,0) ]
+  
+
+  #-                   EEEE                    11100WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLD   PA/PB/PTRA/PTRB,#A
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110000::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f6", jmpa(addr,r,a),            ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110001::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLG",   "x", jmpa(addr,r,a),            ""]
+  ## NO EXAMPLES YET  def disasm_instr( addr, <<   cnd::size(4), 0b1110010::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "XCALLH",   "x", jmpa(addr,r,a),            ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", jmpa(addr,r,a),            ""]
 
 
 
@@ -300,7 +307,7 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1010110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDBYTE  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1010111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDWORD  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLONG  D,{#}S/P {WC/WZ/WCZ}
-  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d), "",   wcz?(c,z)] #4
+  def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>) when s > 0xff, do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d),   "#{s}",   wcz?(c,z)] #4
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDLONG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             101011111                                                POPA    D        {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           1             DDDDDDDDD             111011111                                                POPB    D        {WC/WZ/WCZ}
@@ -559,6 +566,8 @@ defmodule P2Testing.Disasm do
   def callr?(1,a), do: "$+"
 
   def iVl(flag,addr), do: "#{ref?(flag)}#{hex(abs(addr))}"
+  def iVal(flag,addr), do: "#{ref?(flag)}#{hex(addr)}"
+
   def hex(x) when abs(x) < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
   def hex(x),             do: "$#{:io_lib.format('~.16.0b', [x])}"
   def disasm_instr(addr,  <<   cnd::size(4), 0b1101100::size(7), r::size(1), a::signed-size(20)>>),  do: [disasm_c(<<cnd::size(4)>>), "JMP",     jmpa(addr,r,a),     "",   ""] #4
@@ -570,7 +579,6 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1101101           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALL    #A
   #-                   EEEE                    1101110           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLA   #A
   #-                   EEEE                    1101111           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLB   #A
-  #-                   EEEE                    11100WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLD   PA/PB/PTRA/PTRB,#A
   #-                   EEEE                    11101WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                LOC     PA/PB/PTRA/PTRB,#A
   #-                   EEEE                    11110NN           N           N           N             NNNNNNNNN             NNNNNNNNN                                                AUGS    #N
   #-                   EEEE                    11111NN           N           N           N             NNNNNNNNN             NNNNNNNNN                                                AUGD    #N
@@ -700,7 +708,6 @@ defmodule P2Testing.Disasm do
 
   #  def relhubpc(r,a),  do: "##{callr?(r)}#{hubpc(a)}"
   def hubpc(a),  do: hex(div(a, 4) + 1)	## CHECK the theory behind div 4 plus 1
-  def iVal(flag,addr), do: "#{ref?(flag)}#{hex(addr)}"
   def fnAbsAddr(addr), do: hex(addr)
 
 
