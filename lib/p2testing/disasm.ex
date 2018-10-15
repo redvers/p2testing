@@ -140,37 +140,37 @@ defmodule P2Testing.Disasm do
 
   ## Block includes I = 0 clauses
   #-                   EEEE             0110001           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NOT     D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110001::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NOT",     iVal(0,d),          "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110001::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NOT",     iVal(0,d),          "",   wcz?(c,z)] 
   #-                   EEEE             0110001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NOT     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NOT",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110010           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ABS     D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110010::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ABS",     iVal(0,d),          "",   wcz?(c,z)] 
+  def disasm_instr(<<   cnd::size(4), 0b0110010::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ABS",     iVal(0,d),     iVal(0,d),   wcz?(c,z)] 
   #-                   EEEE             0110010           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ABS     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110010::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ABS",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110011           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEG     D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110011::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEG",     iVal(0,d),          "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110011::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEG",     iVal(0,d),          "",   wcz?(c,z)] 
   #-                   EEEE             0110011           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEG     D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEG",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGC    D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGC",     iVal(0,d),         "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGC",     iVal(0,d),         "",   wcz?(c,z)] 
   #-                   EEEE             0110100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGC    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGC",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNC   D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNC",     iVal(0,d),        "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNC",     iVal(0,d),        "",   wcz?(c,z)] 
   #-                   EEEE             0110101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNC   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGNC",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGZ    D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGZ",     iVal(0,d),         "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGZ",     iVal(0,d),         "",   wcz?(c,z)] 
   #-                   EEEE             0110110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGZ    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGZ",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0110111           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                NEGNZ   D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0110111::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNZ",     iVal(0,d),        "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0110111::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "NEGNZ",     iVal(0,d),        "",   wcz?(c,z)] 
   #-                   EEEE             0110111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                NEGNZ   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0110111::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "NEGNZ",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
@@ -184,17 +184,17 @@ defmodule P2Testing.Disasm do
   def disasm_instr(<<   cnd::size(4), 0b0111011::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "SIGNX",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0111100           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ENCOD   D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0111100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ENCOD",     iVal(0,d),        "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0111100::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ENCOD",     iVal(0,d),        "",   wcz?(c,z)] 
   #-                   EEEE             0111100           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ENCOD   D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0111100::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ENCOD",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0111101           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                ONES    D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0111101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ONES",     iVal(0,d),         "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0111101::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "ONES",     iVal(0,d),         "",   wcz?(c,z)] 
   #-                   EEEE             0111101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                ONES    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0111101::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ONES",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
   #-                   EEEE             0111110           C           Z           0             DDDDDDDDD             DDDDDDDDD                                                TEST    D        {WC/WZ/WCZ}
-  def disasm_instr(<<   cnd::size(4), 0b0111110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(18)                     >>), do: [disasm_c(<<cnd::size(4)>>), "TEST",     iVal(0,d),         "",   wcz?(c,z)] 
+# def disasm_instr(<<   cnd::size(4), 0b0111110::size(7), c::size(1), z::size(1), 0::size(1),           d::size(9),           s::size(9)                     >>), do: [disasm_c(<<cnd::size(4)>>), "TEST",     iVal(0,d),         "",   wcz?(c,z)] 
   #-                   EEEE             0111110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                TEST    D,{#}S   {WC/WZ/WCZ}
   def disasm_instr(<<   cnd::size(4), 0b0111110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "TEST",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] 
 
@@ -576,9 +576,29 @@ defmodule P2Testing.Disasm do
 
 
 
+  def tfile do
+    t = dfile("testops.bin")
+    |> Enum.map(&fline/1)
+    |> Enum.join("\n")
 
+    File.write!("testops-disasm.dasm", t)
+  end
 
-
+  def fline({addr, hex, {bitmap, [condition, opcode, "", "", ""]}}) do
+    ExPrintf.sprintf("%4s %8s %-12s %-7s ", [addr, hex, String.downcase(condition), String.downcase(opcode)])
+  end
+  def fline({addr, hex, {bitmap, [condition, opcode, arg1, "", ""]}}) do
+    ExPrintf.sprintf("%4s %8s %-12s %-7s %s", [addr, hex, String.downcase(condition), String.downcase(opcode), arg1])
+  end
+  def fline({addr, hex, {bitmap, [condition, opcode, arg1, arg2, ""]}}) do
+    ExPrintf.sprintf("%4s %8s %-12s %-7s %s, %s", [addr, hex, String.downcase(condition), String.downcase(opcode), arg1, arg2])
+  end
+  def fline({addr, hex, {bitmap, [condition, opcode, arg1, arg2, wcond]}}) do
+    ExPrintf.sprintf("%4s %8s %-12s %-7s %s, %s %s", [addr, hex, String.downcase(condition), String.downcase(opcode), arg1, arg2, String.downcase(wcond)])
+  end
+  def fline(a) do
+    "#{inspect(a)}"
+  end
 
   def dfile(filename) do
     {:ok, filepid} = File.open(filename, [:binary, :read])
@@ -617,23 +637,24 @@ defmodule P2Testing.Disasm do
   end
 
   def disasm_c(<<0b0000::size(4)>>), do: "_RET_"
-  def disasm_c(<<0b0001::size(4)>>), do: "IF_NC_AND_NZ"
-  def disasm_c(<<0b0010::size(4)>>), do: "IF_NC_AND_Z"
+  def disasm_c(<<0b0001::size(4)>>), do: "IF_NZ_AND_NC"
+  def disasm_c(<<0b0010::size(4)>>), do: "IF_Z_AND_NC"
   def disasm_c(<<0b0011::size(4)>>), do: "IF_NC"
-  def disasm_c(<<0b0100::size(4)>>), do: "IF_C_AND_NZ"
+  def disasm_c(<<0b0100::size(4)>>), do: "IF_NZ_AND_C"
   def disasm_c(<<0b0101::size(4)>>), do: "IF_NZ"
-  def disasm_c(<<0b0110::size(4)>>), do: "IF_C_NE_Z"
-  def disasm_c(<<0b0111::size(4)>>), do: "IF_NC_OR_NZ"
-  def disasm_c(<<0b1000::size(4)>>), do: "IF_C_AND_Z"
-  def disasm_c(<<0b1001::size(4)>>), do: "IF_C_EQ_Z"
+  def disasm_c(<<0b0110::size(4)>>), do: "IF_Z_NE_C"
+  def disasm_c(<<0b0111::size(4)>>), do: "IF_NZ_OR_NC"
+  def disasm_c(<<0b1000::size(4)>>), do: "IF_Z_AND_C"
+  def disasm_c(<<0b1001::size(4)>>), do: "IF_Z_EQ_C"
   def disasm_c(<<0b1010::size(4)>>), do: "IF_Z"
-  def disasm_c(<<0b1011::size(4)>>), do: "IF_NC_OR_Z"
+  def disasm_c(<<0b1011::size(4)>>), do: "IF_NZ_OR_C"
   def disasm_c(<<0b1100::size(4)>>), do: "IF_C"
-  def disasm_c(<<0b1101::size(4)>>), do: "IF_C_OR_NZ"
-  def disasm_c(<<0b1110::size(4)>>), do: "IF_C_OR_Z"
+  def disasm_c(<<0b1101::size(4)>>), do: "IF_Z_OR_NC"
+  def disasm_c(<<0b1110::size(4)>>), do: "IF_Z_OR_C"
   def disasm_c(<<0b1111::size(4)>>), do: ""
 
-  def hex(x), do: "$#{:io_lib.format('~.16.0b', [x])}"
+  def hex(x) when x < 10, do: "#{:io_lib.format('~.16.0b', [x])}"
+  def hex(x),             do: "$#{:io_lib.format('~.16.0b', [x])}"
   def ref?(0), do: ""
   def ref?(1), do: "#"
   def wcz?(0,0), do: ""
