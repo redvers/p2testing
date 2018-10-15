@@ -222,14 +222,21 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1011001           1           1           0             111111111             111111111                                                RETI0
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011001::size(7), 1::size(1), 1::size(1), 0::size(1), 0b111111111::size(9), 0b111111111::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RETI0",   "",            "",          ""       ]
   #-                   EEEE                    1011001           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                CALLD   D,{#}S   {WC/WZ/WCZ}
-  #  def disasm_instr( addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),            calla(addr,i,s),          jmpa(addr,i,0) ]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1011001::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   iVal(0,d),            il(addr,i,s), ""]
+
+  def il(addrr, flag,addr) when addrr < 0x400, do: "#{ref?(flag)}#{hex(addr)}"
+  def il(addrr, flag,addr), do: "XX#{ref?(flag)}#{hex(addr)}"
   
 
   #-                   EEEE                    11100WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLD   PA/PB/PTRA/PTRB,#A
   def disasm_instr( addr, <<   cnd::size(4), 0b1110000::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f6", jmpa(addr,r,a),            ""]
   def disasm_instr( addr, <<   cnd::size(4), 0b1110001::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLG",   "x", jmpa(addr,r,a),            ""]
   ## NO EXAMPLES YET  def disasm_instr( addr, <<   cnd::size(4), 0b1110010::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "XCALLH",   "x", jmpa(addr,r,a),            ""]
-  def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), r::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", jmpa(addr,r,a),            ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), 0::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", calla(addr,0,a),            ""]
+  def disasm_instr( addr, <<   cnd::size(4), 0b1110011::size(7), 1::size(1), a::size(20)>>), do: [disasm_c(<<cnd::size(4)>>), "CALLD",   "$1f9", calld(addr,1,a),            ""]
+
+  def calld(addr,r,a) when abs(addr) < 0x400,  do: "##{callr?(r,a)}#{iVl(0,(div(a,4))+1)}"
+  def calld(addr,r,a),                    do: "##{callr?(r,a)}#{iVl(0,a+4)}"
 
 
 
@@ -305,6 +312,8 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1010100           C           1           I             DDDDDDDDD             SSSSSSSSS                                                RDPIN   D,{#}S          {WC}
   #-                   EEEE                    1010101           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLUT   D,{#}S   {WC/WZ/WCZ}
   #-                   EEEE                    1010110           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDBYTE  D,{#}S/P {WC/WZ/WCZ}
+  def disasm_instr(_addr, <<   cnd::size(4), 0b1010110::size(7), c::size(1), z::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "RDBYTE",     iVal(0,d),     iVal(i,s),   wcz?(c,z)] #4
+  #
   #-                   EEEE                    1010111           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDWORD  D,{#}S/P {WC/WZ/WCZ}
   #-                   EEEE                    1011000           C           Z           I             DDDDDDDDD             SSSSSSSSS                                                RDLONG  D,{#}S/P {WC/WZ/WCZ}
   def disasm_instr(_addr, <<   cnd::size(4), 0b1011000::size(7), c::size(1), z::size(1), 1::size(1),           d::size(9),           s::size(9)>>) when s > 0xff, do: [disasm_c(<<cnd::size(4)>>), "LONG",     iVal(0,d),   "#{s}",   wcz?(c,z)] #4
@@ -469,6 +478,7 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1101011           C           Z           0             DDDDDDDDD             000101011                                                POP     D        {WC/WZ/WCZ}
   #-                   EEEE                    1101011           C           Z           0             DDDDDDDDD             000101101                                                CALL    D        {WC/WZ/WCZ}
   #-                   EEEE                    1101011           C           Z           1             000000000             000101101                                                RET              {WC/WZ/WCZ}
+  def disasm_instr(_addr, <<   cnd::size(4), 0b1101011::size(7), c::size(1), z::size(1), 1::size(1), 0b000000000::size(9), 0b000101101::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "ret",     "",     "",   wcz?(c,z)] 
   #-                   EEEE                    1101011           C           Z           0             DDDDDDDDD             000101110                                                CALLA   D        {WC/WZ/WCZ}
   #-                   EEEE                    1101011           C           Z           1             000000000             000101110                                                RETA             {WC/WZ/WCZ}
   #-                   EEEE                    1101011           C           Z           0             DDDDDDDDD             000101111                                                CALLB   D        {WC/WZ/WCZ}
