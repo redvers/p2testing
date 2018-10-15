@@ -1,0 +1,1251 @@
+0000 fdb000c8              call    #$+$33
+0004 fb23ec06              calld   $1f6, 6
+0008 fd601001              cogid   8
+000c f6041200              mov     9, #0
+0010 fc601209              wrlong  9, 9
+0014 fd601003              cogstop 8
+0018 00000938 _ret_        ror     4, $138
+001c 00000000              nop     
+0020 00000000              nop     
+0024 00000000              nop     
+0028 00000000              nop     
+002c 00000000              nop     
+0030 00000000              nop     
+0034 00000000              nop     
+0038 00000000              nop     
+003c 00000000              nop     
+0040 00000000              nop     
+0044 00000000              nop     
+0048 00000000              nop     
+004c 00000000              nop     
+0050 00000000              nop     
+0054 00000000              nop     
+0058 00000000              nop     
+005c 00000000              nop     
+0060 00000000              nop     
+0064 00000000              nop     
+0068 f6042e00              mov     $17, #0
+006c f6500e07              abs     7, 7 wc
+0070 c6042e01 if_c         mov     $17, #1
+0074 f6501008              abs     8, 8 wc
+0078 c5642e01 if_c         xor     $17, #1
+007c fdb000ac              call    #$+$2c
+0080 f20c2e00              cmp     $17, #0 wz
+0084 56600e07 if_nz        neg     7, 7
+0088 fd64002d              ret     
+008c f6005408              mov     $2a, 8
+0090 f0445409              shr     $2a, #9
+0094 ff7fc000              augs    #$7fc000 << 9
+0098 f5445400              or      $2a, #0
+009c f9b05608              setd    $2b, 8
+00a0 f1841201              sub     9, #1
+00a4 fd601228              setq    9
+00a8 ff800000              augd    #0 << 9
+00ac fc680007              wrlong  #0, 7
+00b0 fd64002d              ret     
+00b4 fac01408              rdbyte  $a, 8
+00b8 fc401407              wrbyte  $a, 7
+00bc f1040e01              add     7, #1
+00c0 f1041001              add     8, #1
+00c4 fb6c13fb              djnz    9, #$-4
+00c8 fd64002d              ret     
+00cc ff00003f              augs    #$3f << 9
+00d0 f6042d80              mov     $16, #$180
+00d4 fd647c59              drvh    #$3e
+00d8 00000000              nop     
+00dc f6040e01              mov     7, #1
+00e0 fd000e07              qmul    7, 7
+00e4 fd607618              getqx   $3b
+00e8 fd64002d              ret     
+00ec 00000000              nop     
+00f0 f20c7600              cmp     $3b, #0 wz
+00f4 ad900010 if_z         jmp     #$+5
+00f8 fd000e08              qmul    7, 8
+00fc fd600e18              getqx   7
+0100 fd601019              getqy   8
+0104 fd64002d              ret     
+0108 f6043000              mov     $18, #0
+010c f6043220              mov     $19, #$20
+0110 f0540e01              shr     7, #1 wc
+0114 c1103008 if_c         add     $18, 8 wc
+0118 f0943001              rcr     $18, #1 wc
+011c f0940e01              rcr     7, #1 wc
+0120 fb6c33fc              djnz    $19, #$-3
+0124 f6001018              mov     8, $18
+0128 fd64002d              ret     
+012c f20c7600              cmp     $3b, #0 wz
+0130 ad900010 if_z         jmp     #$+5
+0134 fd100e08              qdiv    7, 8
+0138 fd600e18              getqx   7
+013c fd601019              getqy   8
+0140 fd64002d              ret     
+0144 f6043220              mov     $19, #$20
+0148 f6043000              mov     $18, #0
+014c f20c1000              cmp     8, #0 wz
+0150 5d900008 if_nz        jmp     #$+3
+0154 f6040e00              mov     7, #0
+0158 fd64002d              ret     
+015c f05c1001              shr     8, #1 wcz
+0160 f0843001              rcr     $18, #1
+0164 5b6c33fd if_nz        djnz    $19, #$-2
+0168 f2f00e18              cmpsub  7, $18 wc
+016c f0a41001              rcl     8, #1
+0170 f0443001              shr     $18, #1
+0174 fb6c33fc              djnz    $19, #$-3
+0178 f6003008              mov     $18, 8
+017c f6001007              mov     8, 7
+0180 f6000e18              mov     7, $18
+0184 fd64002d              ret     
+0188 00000000              nop     
+018c 00000000              nop     
+0190 00000000              nop     
+0194 00000000              nop     
+0198 00000000              nop     
+019c 00000000              nop     
+01a0 00000000              nop     
+01a4 00000000              nop     
+01a8 00000000              nop     
+01ac 00000000              nop     
+01b0 00000000              nop     
+01b4 00000000              nop     
+01b8 00000000              nop     
+01bc 00000000              nop     
+01c0 00000000              nop     
+01c4 00000000              nop     
+01c8 00000000              nop     
+01cc 00000000              nop     
+01d0 00000000              nop     
+01d4 00000000              nop     
+01d8 00000000              nop     
+01dc 00000000              nop     
+01e0 00000000              nop     
+01e4 00000000              nop     
+01e8 00000000              nop     
+01ec 00000000              nop     
+01f0 00000000              nop     
+01f4 00000000              nop     
+01f8 00000000              nop     
+01fc 00000000              nop     
+0200 00000000              nop     
+0204 00000000              nop     
+0208 00000000              nop     
+020c 00000000              nop     
+0210 00000000              nop     
+0214 00000000              nop     
+0218 00000000              nop     
+021c 00000000              nop     
+0220 00000000              nop     
+0224 00000000              nop     
+0228 00000000              nop     
+022c 00000000              nop     
+0230 00000000              nop     
+0234 00000000              nop     
+0238 00000000              nop     
+023c 00000000              nop     
+0240 00000000              nop     
+0244 00000000              nop     
+0248 00000000              nop     
+024c 00000000              nop     
+0250 00000000              nop     
+0254 00000000              nop     
+0258 00000000              nop     
+025c 00000000              nop     
+0260 00000000              nop     
+0264 00000000              nop     
+0268 00000000              nop     
+026c 00000000              nop     
+0270 00000000              nop     
+0274 00000000              nop     
+0278 00000000              nop     
+027c 00000000              nop     
+0280 00000000              nop     
+0284 00000000              nop     
+0288 00000000              nop     
+028c 00000000              nop     
+0290 00000000              nop     
+0294 00000000              nop     
+0298 00000000              nop     
+029c 00000000              nop     
+02a0 00000000              nop     
+02a4 00000000              nop     
+02a8 00000000              nop     
+02ac 00000000              nop     
+02b0 00000000              nop     
+02b4 00000000              nop     
+02b8 00000000              nop     
+02bc 00000000              nop     
+02c0 00000000              nop     
+02c4 00000000              nop     
+02c8 00000000              nop     
+02cc 00000000              nop     
+02d0 00000000              nop     
+02d4 00000000              nop     
+02d8 00000000              nop     
+02dc 00000000              nop     
+02e0 00000000              nop     
+02e4 00000000              nop     
+02e8 00000000              nop     
+02ec 00000000              nop     
+02f0 00000000              nop     
+02f4 00000000              nop     
+02f8 00000000              nop     
+02fc 00000000              nop     
+0300 00000000              nop     
+0304 00000000              nop     
+0308 00000000              nop     
+030c 00000000              nop     
+0310 00000000              nop     
+0314 00000000              nop     
+0318 00000000              nop     
+031c 00000000              nop     
+0320 00000000              nop     
+0324 00000000              nop     
+0328 00000000              nop     
+032c 00000000              nop     
+0330 00000000              nop     
+0334 00000000              nop     
+0338 00000000              nop     
+033c 00000000              nop     
+0340 00000000              nop     
+0344 00000000              nop     
+0348 00000000              nop     
+034c 00000000              nop     
+0350 00000000              nop     
+0354 00000000              nop     
+0358 00000000              nop     
+035c 00000000              nop     
+0360 00000000              nop     
+0364 00000000              nop     
+0368 00000000              nop     
+036c 00000000              nop     
+0370 00000000              nop     
+0374 00000000              nop     
+0378 00000000              nop     
+037c 00000000              nop     
+0380 00000000              nop     
+0384 00000000              nop     
+0388 00000000              nop     
+038c 00000000              nop     
+0390 00000000              nop     
+0394 00000000              nop     
+0398 00000000              nop     
+039c 00000000              nop     
+03a0 00000000              nop     
+03a4 00000000              nop     
+03a8 00000000              nop     
+03ac 00000000              nop     
+03b0 00000000              nop     
+03b4 00000000              nop     
+03b8 00000000              nop     
+03bc 00000000              nop     
+03c0 00000000              nop     
+03c4 00000000              nop     
+03c8 00000000              nop     
+03cc 00000000              nop     
+03d0 00000000              nop     
+03d4 00000000              nop     
+03d8 00000000              nop     
+03dc 00000000              nop     
+03e0 00000000              nop     
+03e4 00000000              nop     
+03e8 00000000              nop     
+03ec 00000000              nop     
+03f0 00000000              nop     
+03f4 00000000              nop     
+03f8 00000000              nop     
+03fc 00000000              nop     
+0400 fb001007              rdlong  8, 7
+0404 ff000002              augs    #2 << 9
+0408 fc641034              wrlong  8, #$34
+040c f1040e04              add     7, #4
+0410 fb001207              rdlong  9, 7
+0414 f1040e04              add     7, #4
+0418 fb001407              rdlong  $a, 7
+041c f1040e04              add     7, #4
+0420 fb001007              rdlong  8, 7
+0424 f0541001              shr     8, #1 wc
+0428 f5041001              and     8, #1
+042c f56c1001              xor     8, #1 wz
+0430 fd900000              jmp     #$+4
+0434 f618120a              mov     9, $a wcz
+0438 16041000 if_nz_and_nc mov     8, #0
+043c 46041001 if_nz_and_c  mov     8, #1
+0440 26041002 if_z_and_nc  mov     8, #2
+0444 86041003 if_z_and_c   mov     8, #3
+0448 fc601007              wrlong  8, 7
+044c f1840e08              sub     7, #8
+0450 fc601207              wrlong  9, 7
+0454 fd63ec2c              jmp     $1f6
+0458 f1842c04              sub     $16, #4
+045c fc602216              wrlong  $11, $16
+0460 f1842c04              sub     $16, #4
+0464 fc602416              wrlong  $12, $16
+0468 f1842c04              sub     $16, #4
+046c fc602616              wrlong  $13, $16
+0470 f1842c04              sub     $16, #4
+0474 fc602816              wrlong  $14, $16
+0478 f1842c04              sub     $16, #4
+047c fc602a16              wrlong  $15, $16
+0480 f1842c04              sub     $16, #4
+0484 fc63ec16              wrlong  $1f6, $16
+0488 f6001c16              mov     $e, $16
+048c f1041c18              add     $e, #$18
+0490 fb00220e              rdlong  $11, $e
+0494 f1041c04              add     $e, #4
+0498 f0641601              shl     $b, #1
+049c fb00240e              rdlong  $12, $e
+04a0 ff000002              augs    #2 << 9
+04a4 fb041d38              long    $fb041d38
+04a8 f600280e              mov     $14, $e
+04ac f6001a0e              mov     $d, $e
+04b0 f6002a0e              mov     $15, $e
+04b4 f1042a0c              add     $15, #$c
+04b8 f1041a08              add     $d, #8
+04bc f540160a              or      $b, $a
+04c0 f1042804              add     $14, #4
+04c4 f600260c              mov     $13, $c
+04c8 fc600e0e              wrlong  7, $e
+04cc f6000e0e              mov     7, $e
+04d0 fc601214              wrlong  9, $14
+04d4 fc60100d              wrlong  8, $d
+04d8 fc601615              wrlong  $b, $15
+04dc fb27edc8              calld   $1f6, #$-$dc
+04e0 fb002814              rdlong  $14, $14
+04e4 fc602813              wrlong  $14, $13
+04e8 fb001c15              rdlong  $e, $15
+04ec f5041c01              and     $e, #1
+04f0 fc601c11              wrlong  $e, $11
+04f4 fb001c15              rdlong  $e, $15
+04f8 f0c41c01              sar     $e, #1
+04fc f5041c01              and     $e, #1
+0500 fc601c12              wrlong  $e, $12
+0504 fb03ec16              rdlong  $1f6, $16
+0508 f1042c04              add     $16, #4
+050c fb002a16              rdlong  $15, $16
+0510 f1042c04              add     $16, #4
+0514 fb002816              rdlong  $14, $16
+0518 f1042c04              add     $16, #4
+051c fb002616              rdlong  $13, $16
+0520 f1042c04              add     $16, #4
+0524 fb002416              rdlong  $12, $16
+0528 f1042c04              add     $16, #4
+052c fb002216              rdlong  $11, $16
+0530 f1042c04              add     $16, #4
+0534 fd63ec2c              jmp     $1f6
+0538 00000980 _ret_        ror     4, $180
+053c 20202020 if_z_and_nc  rol     $10, $20
+0540 00202020 _ret_        rol     $10, $20
+0544 04007325 _ret_        bitl    $39, $125
+0548 2d2d2d20 if_z_and_nc  qfrac   #$96, #$120
+054c 2d2d2d44 if_z_and_nc  qfrac   #$96, #$144
+0550 2d2d202d if_z_and_nc  qfrac   #$90, #$2d
+0554 2d2d532d if_z_and_nc  qfrac   #$a9, #$12d
+0558 43202d2d if_nz_and_c  fle     $16, $12d
+055c 203d205a if_z_and_nc  rol     $90, #$5a wcz
+0560 00000400 _ret_        ror     2, 0
+0564 512d2d2d if_nz        addx    $96, #$12d wz
+0568 2d2d2d2d if_z_and_nc  qfrac   #$96, #$12d
+056c 005a4320 _ret_        shr     $121, $120 wcz
+0570 78323025 if_nz_or_nc  setnib  $118, $25, #6
+0574 33302520 if_nc        fle     $12, $120 wc
+0578 00040078 _ret_        ror     0, #$78
+057c 30252020 if_nc        rol     $90, #$20
+0580 25207838 if_z_and_nc  andn    $3c, $38
+0584 20783830 if_z_and_nc  shl     $1c, $30 wcz
+0588 25783125 if_z_and_nc  xor     $18, $125 wcz
+058c 3d207831 if_nc        qfrac   $3c, $31
+0590 00000400 _ret_        ror     2, 0
+0594 38302520 if_nc        setnib  $12, $120, #6
+0598 78252078 if_nz_or_nc  setnib  $90, #$78, #4
+059c 000a7825 _ret_        ror     $13c, $25 wz
+05a0 f1842c04              sub     $16, #4
+05a4 fc601e16              wrlong  $f, $16
+05a8 f1842c04              sub     $16, #4
+05ac fc602016              wrlong  $10, $16
+05b0 f1842c04              sub     $16, #4
+05b4 fc602216              wrlong  $11, $16
+05b8 f1842c04              sub     $16, #4
+05bc fc602416              wrlong  $12, $16
+05c0 f1842c04              sub     $16, #4
+05c4 fc602616              wrlong  $13, $16
+05c8 f1842c04              sub     $16, #4
+05cc fc602816              wrlong  $14, $16
+05d0 f1842c04              sub     $16, #4
+05d4 fc602a16              wrlong  $15, $16
+05d8 f1842c04              sub     $16, #4
+05dc fc63ec16              wrlong  $1f6, $16
+05e0 f1842c50              sub     $16, #$50
+05e4 f6041848              mov     $c, #$48
+05e8 f6002a16              mov     $15, $16
+05ec f1001816              add     $c, $16
+05f0 f1042a20              add     $15, #$20
+05f4 ff000004              augs    #4 << 9
+05f8 fb041108              rdlong  8, ptra[8]
+05fc fc600e0c              wrlong  7, $c
+0600 f6000e15              mov     7, $15
+0604 fe100d34              calld   $1f6, #$+$d38
+0608 f6041a48              mov     $d, #$48
+060c f1001a16              add     $d, $16
+0610 fb00280d              rdlong  $14, $d
+0614 f0642802              shl     $14, #2
+0618 f6001c14              mov     $e, $14
+061c ff000004              augs    #4 << 9
+0620 fb042f0c              rdlong  $17, ptra[12]
+0624 f1001c17              add     $e, $17
+0628 fb00260e              rdlong  $13, $e
+062c f6000e13              mov     7, $13
+0630 fe100d34              calld   $1f6, #$+$d38
+0634 f6001207              mov     9, 7
+0638 f6001013              mov     8, $13
+063c f6000e15              mov     7, $15
+0640 fe100cd4              calld   $1f6, #$+$cd8
+0644 f6001c16              mov     $e, $16
+0648 f1041c04              add     $e, #4
+064c ff000004              augs    #4 << 9
+0650 fb042f10              rdlong  $17, ptra[-16]
+0654 fc602e16              wrlong  $17, $16
+0658 fc602a0e              wrlong  $15, $e
+065c fe1007e0              calld   $1f6, #$+$7e4
+0660 ff000004              augs    #4 << 9
+0664 fb042f14              rdlong  $17, ptra[-12]
+0668 fc602e16              wrlong  $17, $16
+066c fe1007d0              calld   $1f6, #$+$7d4
+0670 ff000004              augs    #4 << 9
+0674 fb040f18              rdlong  7, ptra[-8]
+0678 fe100bd0              calld   $1f6, #$+$bd4
+067c ff000004              augs    #4 << 9
+0680 fb042f1c              rdlong  $17, ptra[-4]
+0684 f1002817              add     $14, $17
+0688 f6041c38              mov     $e, #$38
+068c f1001c16              add     $e, $16
+0690 f6041a00              mov     $d, #0
+0694 fb002814              rdlong  $14, $14
+0698 f6001814              mov     $c, $14
+069c ff000004              augs    #4 << 9
+06a0 fb042f20              long    $fb042f20
+06a4 f5401817              or      $c, $17
+06a8 fc60180e              wrlong  $c, $e
+06ac f6041c34              mov     $e, #$34
+06b0 f1001c16              add     $e, $16
+06b4 fc601a0e              wrlong  $d, $e
+06b8 f6041a34              mov     $d, #$34
+06bc f1001a16              add     $d, $16
+06c0 f6041840              mov     $c, #$40
+06c4 f1001816              add     $c, $16
+06c8 fb001c0d              rdlong  $e, $d
+06cc ff000004              augs    #4 << 9
+06d0 fb041b24              long    $fb041b24
+06d4 f1001c0d              add     $e, $d
+06d8 fb001c0e              rdlong  $e, $e
+06dc f6001e0d              mov     $f, $d
+06e0 fc601c0c              wrlong  $e, $c
+06e4 f6041c34              mov     $e, #$34
+06e8 f1001c16              add     $e, $16
+06ec fb001a0e              rdlong  $d, $e
+06f0 f0641a03              shl     $d, #3
+06f4 f6041c3c              mov     $e, #$3c
+06f8 f1801a0f              sub     $d, $f
+06fc f1001c16              add     $e, $16
+0700 fc601a0e              wrlong  $d, $e
+0704 f604183c              mov     $c, #$3c
+0708 f1001816              add     $c, $16
+070c f6002416              mov     $12, $16
+0710 f6042000              mov     $10, #0
+0714 f104241c              add     $12, #$1c
+0718 fb001a0c              rdlong  $d, $c
+071c f6041844              mov     $c, #$44
+0720 f1001816              add     $c, $16
+0724 fb001c0f              rdlong  $e, $f
+0728 f1001a0f              add     $d, $f
+072c fc601c0c              wrlong  $e, $c
+0730 f6001c0f              mov     $e, $f
+0734 f6001e0d              mov     $f, $d
+0738 f6001a0e              mov     $d, $e
+073c fd90013c              jmp     #$+$140
+0740 f6041c18              mov     $e, #$18
+0744 f1001c16              add     $e, $16
+0748 f6002616              mov     $13, $16
+074c f6041814              mov     $c, #$14
+0750 f1042604              add     $13, #4
+0754 f1001816              add     $c, $16
+0758 f6001611              mov     $b, $11
+075c f6001410              mov     $a, $10
+0760 f6002a16              mov     $15, $16
+0764 f1042a08              add     $15, #8
+0768 f6002816              mov     $14, $16
+076c f104280c              add     $14, #$c
+0770 fc601c16              wrlong  $e, $16
+0774 f6041c38              mov     $e, #$38
+0778 f1001c16              add     $e, $16
+077c fc601813              wrlong  $c, $13
+0780 f6041840              mov     $c, #$40
+0784 f1001816              add     $c, $16
+0788 fb000e0e              rdlong  7, $e
+078c f6041c44              mov     $e, #$44
+0790 f1001c16              add     $e, $16
+0794 fb00120e              rdlong  9, $e
+0798 f6041c4c              mov     $e, #$4c
+079c f1001c16              add     $e, $16
+07a0 fb00100c              rdlong  8, $c
+07a4 f6001812              mov     $c, $12
+07a8 fc601a0e              wrlong  $d, $e
+07ac fb27ed2a              calld   $1f6, #$-$354
+07b0 ff000004              augs    #4 << 9
+07b4 fb041d28              long    $fb041d28
+07b8 f6041848              mov     $c, #$48
+07bc f1001816              add     $c, $16
+07c0 fc601c16              wrlong  $e, $16
+07c4 f6001c11              mov     $e, $11
+07c8 f1001c0f              add     $e, $f
+07cc fb00180c              rdlong  $c, $c
+07d0 fc601813              wrlong  $c, $13
+07d4 fc601c15              wrlong  $e, $15
+07d8 fe100664              calld   $1f6, #$+$668
+07dc ff000004              augs    #4 << 9
+07e0 fb041d2c              long    $fb041d2c
+07e4 f6041844              mov     $c, #$44
+07e8 f1001816              add     $c, $16
+07ec fc601c16              wrlong  $e, $16
+07f0 f6041c40              mov     $e, #$40
+07f4 f1001c16              add     $e, $16
+07f8 fb00180c              rdlong  $c, $c
+07fc fc601813              wrlong  $c, $13
+0800 fb001c0e              rdlong  $e, $e
+0804 fc601c15              wrlong  $e, $15
+0808 f6001c16              mov     $e, $16
+080c f1041c10              add     $e, #$10
+0810 fc602014              wrlong  $10, $14
+0814 fc60220e              wrlong  $11, $e
+0818 f1042201              add     $11, #1
+081c fe100620              calld   $1f6, #$+$624
+0820 ff000004              augs    #4 << 9
+0824 fb041d30              long    $fb041d30
+0828 fc601c16              wrlong  $e, $16
+082c f6041c18              mov     $e, #$18
+0830 f1001c16              add     $e, $16
+0834 fb001812              rdlong  $c, $12
+0838 fc601813              wrlong  $c, $13
+083c f6041814              mov     $c, #$14
+0840 f1001816              add     $c, $16
+0844 fb001c0e              rdlong  $e, $e
+0848 fc601c15              wrlong  $e, $15
+084c fb00180c              rdlong  $c, $c
+0850 fc601814              wrlong  $c, $14
+0854 fe1005e8              calld   $1f6, #$+$5ec
+0858 f6041c4c              mov     $e, #$4c
+085c f1001c16              add     $e, $16
+0860 f25c2202              cmps    $11, #2 wcz
+0864 fb001a0e              rdlong  $d, $e
+0868 5d9ffed4 if_nz        jmp     #$-$128
+086c f1042001              add     $10, #1
+0870 f25c2002              cmps    $10, #2 wcz
+0874 f1041e02              add     $f, #2
+0878 ad900008 if_z         jmp     #$+$c
+087c f6042200              mov     $11, #0
+0880 fd9ffebc              jmp     #$-$140
+0884 f6001e0d              mov     $f, $d
+0888 f1041e04              add     $f, #4
+088c ff000004              augs    #4 << 9
+0890 fb041b34              long    $fb041b34
+0894 f2581e0d              cmps    $f, $d wcz
+0898 5d9ffe68 if_nz        jmp     #$-$194
+089c f6041834              mov     $c, #$34
+08a0 f1001816              add     $c, $16
+08a4 fb001c0c              rdlong  $e, $c
+08a8 f6041834              mov     $c, #$34
+08ac f1041c04              add     $e, #4
+08b0 f1001816              add     $c, $16
+08b4 f25c1c20              cmps    $e, #$20 wcz
+08b8 fc601c0c              wrlong  $e, $c
+08bc 5d9ffdf8 if_nz        jmp     #$-$204
+08c0 f1042c50              add     $16, #$50
+08c4 fb03ec16              rdlong  $1f6, $16
+08c8 f1042c04              add     $16, #4
+08cc fb002a16              rdlong  $15, $16
+08d0 f1042c04              add     $16, #4
+08d4 fb002816              rdlong  $14, $16
+08d8 f1042c04              add     $16, #4
+08dc fb002616              rdlong  $13, $16
+08e0 f1042c04              add     $16, #4
+08e4 fb002416              rdlong  $12, $16
+08e8 f1042c04              add     $16, #4
+08ec fb002216              rdlong  $11, $16
+08f0 f1042c04              add     $16, #4
+08f4 fb002016              rdlong  $10, $16
+08f8 f1042c04              add     $16, #4
+08fc fb001e16              rdlong  $f, $16
+0900 f1042c04              add     $16, #4
+0904 fd63ec2c              jmp     $1f6
+0908 0000053c _ret_        ror     2, $13c
+090c 00000cc0 _ret_        ror     6, $c0
+0910 00000544 _ret_        ror     2, $144
+0914 00000548 _ret_        ror     2, $148
+0918 00000564 _ret_        ror     2, $164
+091c 000009b0 _ret_        ror     4, $1b0
+0920 f018120a              ror     9, $a wcz
+0924 00000990 _ret_        ror     4, $190
+0928 00000570 _ret_        ror     2, $170
+092c 0000057c _ret_        ror     2, $17c
+0930 00000594 _ret_        ror     2, $194
+0934 000009b0 _ret_        ror     4, $1b0
+0938 f1842c04              sub     $16, #4
+093c fc602a16              wrlong  $15, $16
+0940 f1842c04              sub     $16, #4
+0944 fc63ec16              wrlong  $1f6, $16
+0948 f6040e01              mov     7, #1
+094c f6042a00              mov     $15, #0
+0950 fe1009b0              calld   $1f6, #$+$9b4
+0954 f6000e15              mov     7, $15
+0958 f1042a01              add     $15, #1
+095c fb27ed10              calld   $1f6, #$-$3bc
+0960 f25c2a48              cmps    $15, #$48 wcz
+0964 5d9fffec if_nz        jmp     #$-$10
+0968 f6040e00              mov     7, #0
+096c fb03ec16              rdlong  $1f6, $16
+0970 f1042c04              add     $16, #4
+0974 fb002a16              rdlong  $15, $16
+0978 f1042c04              add     $16, #4
+097c fd63ec2c              jmp     $1f6
+0980 00000000              nop     
+0984 00000000              nop     
+0988 00000000              nop     
+098c 00000000              nop     
+0990 00000000              nop     
+0994 00000001 _ret_        ror     0, 1
+0998 00000002 _ret_        ror     0, 2
+099c 7fffffff if_nz_or_nc  augd    #$7fffff << 9
+09a0 80000000 if_z_and_c   ror     0, 0
+09a4 80000001 if_z_and_c   ror     0, 1
+09a8 fffffffe              augd    #$7ffffe << 9
+09ac ffffffff              augd    #$7fffff << 9
+09b0 00000000              nop     
+09b4 00200000 _ret_        rol     0, 0
+09b8 00400000 _ret_        shr     0, 0
+09bc 00600000 _ret_        shl     0, 0
+09c0 00800000 _ret_        rcr     0, 0
+09c4 00a00000 _ret_        rcl     0, 0
+09c8 00c00000 _ret_        sar     0, 0
+09cc 00e00000 _ret_        sal     0, 0
+09d0 01000000 _ret_        add     0, 0
+09d4 01200000 _ret_        addx    0, 0
+09d8 01400000 _ret_        adds    0, 0
+09dc 01600000 _ret_        addsx   0, 0
+09e0 01800000 _ret_        sub     0, 0
+09e4 01a00000 _ret_        subx    0, 0
+09e8 01c00000 _ret_        subs    0, 0
+09ec 01e00000 _ret_        subsx   0, 0
+09f0 02000000 _ret_        cmp     0, 0
+09f4 02200000 _ret_        cmpx    0, 0
+09f8 02400000 _ret_        cmps    0, 0
+09fc 02600000 _ret_        cmpsx   0, 0
+0a00 02800000 _ret_        cmpr    0, 0
+0a04 02a00000 _ret_        cmpm    0, 0
+0a08 02c00000 _ret_        subr    0, 0
+0a0c 02e00000 _ret_        cmpsub  0, 0
+0a10 03000000 _ret_        fge     0, 0
+0a14 03200000 _ret_        fle     0, 0
+0a18 03400000 _ret_        fges    0, 0
+0a1c 03600000 _ret_        fles    0, 0
+0a20 03800000 _ret_        sumc    0, 0
+0a24 03a00000 _ret_        sumnc   0, 0
+0a28 03c00000 _ret_        sumz    0, 0
+0a2c 03e00000 _ret_        sumnz   0, 0
+0a30 04000000 _ret_        bitl    0, 0
+0a34 04200000 _ret_        bith    0, 0
+0a38 04400000 _ret_        bitc    0, 0
+0a3c 04600000 _ret_        bitnc   0, 0
+0a40 04800000 _ret_        bitz    0, 0
+0a44 04a00000 _ret_        bitnz   0, 0
+0a48 04e00000 _ret_        bitnot  0, 0
+0a4c 05200000 _ret_        andn    0, 0
+0a50 05000000 _ret_        and     0, 0
+0a54 05400000 _ret_        or      0, 0
+0a58 05600000 _ret_        xor     0, 0
+0a5c 05800000 _ret_        muxc    0, 0
+0a60 05a00000 _ret_        muxnc   0, 0
+0a64 05c00000 _ret_        muxz    0, 0
+0a68 05e00000 _ret_        muxnz   0, 0
+0a6c 06000000 _ret_        mov     0, 0
+0a70 06200000 _ret_        not     0, 0
+0a74 06400000 _ret_        abs     0, 0
+0a78 06600000 _ret_        neg     0, 0
+0a7c 06800000 _ret_        negc    0, 0
+0a80 06a00000 _ret_        negnc   0, 0
+0a84 06c00000 _ret_        negz    0, 0
+0a88 06e00000 _ret_        negnz   0, 0
+0a8c 07000000 _ret_        incmod  0, 0
+0a90 07200000 _ret_        decmod  0, 0
+0a94 07800000 _ret_        encod   0, 0
+0a98 07e00000 _ret_        testn   0, 0
+0a9c 07c00000 _ret_        test    0, 0
+0aa0 07a00000 _ret_        ones    0, 0
+0aa4 08000000 _ret_        setnib  0, 0, #0
+0aa8 08400000 _ret_        getnib  0, 0, #0
+0aac 08800000 _ret_        rolnib  0, 0, #0
+0ab0 08c00000 _ret_        setbyte 0, 0, #0
+0ab4 08e00000 _ret_        getbyte 0, 0, #0
+0ab8 09000000 _ret_        rolbyte 0, 0, #0
+0abc 09300000 _ret_        getword 0, 0, #0
+0ac0 09b80000 _ret_        sets    0, 0
+0ac4 07600000 _ret_        signx   0, 0
+0ac8 09f80000 _ret_        movbyts 0, 0
+0acc 0a100000 _ret_        muls    0, 0
+0ad0 00726f72 _ret_        shl     $137, $172 wc
+0ad4 006c6f72 _ret_        shl     $37, #$172 wz
+0ad8 00726873 _ret_        shl     $134, $73 wc
+0adc 006c6873 _ret_        shl     $34, #$73 wz
+0ae0 00726372 _ret_        shl     $131, $172 wc
+0ae4 006c6372 _ret_        shl     $31, #$172 wz
+0ae8 00726173 _ret_        shl     $130, $173 wc
+0aec 006c6173 _ret_        shl     $30, #$173 wz
+0af0 00646461 _ret_        shl     $32, #$61
+0af4 78646461 if_nz_or_nc  getnib  $32, #$61, #4
+0af8 00000400 _ret_        ror     2, 0
+0afc 73646461 if_nz_or_nc  fles    $32, #$61
+0b00 00000400 _ret_        ror     2, 0
+0b04 73646461 if_nz_or_nc  fles    $32, #$61
+0b08 00040078 _ret_        ror     0, #$78
+0b0c 00627573 _ret_        shl     $13a, $173
+0b10 78627573 if_nz_or_nc  getnib  $13a, $173, #4
+0b14 00000400 _ret_        ror     2, 0
+0b18 73627573 if_nz_or_nc  fles    $13a, $173
+0b1c 00000400 _ret_        ror     2, 0
+0b20 73627573 if_nz_or_nc  fles    $13a, $173
+0b24 00040078 _ret_        ror     0, #$78
+0b28 00706d63 _ret_        shl     $36, $163 wc
+0b2c 78706d63 if_nz_or_nc  getnib  $36, $163, #6
+0b30 00000400 _ret_        ror     2, 0
+0b34 73706d63 if_nz_or_nc  fles    $36, $163 wc
+0b38 00000400 _ret_        ror     2, 0
+0b3c 73706d63 if_nz_or_nc  fles    $36, $163 wc
+0b40 00040078 _ret_        ror     0, #$78
+0b44 72706d63 if_nz_or_nc  cmpsx   $36, $163 wc
+0b48 00000400 _ret_        ror     2, 0
+0b4c 6d706d63              long    $6d706d63
+0b50 00000400 _ret_        ror     2, 0
+0b54 72627573 if_nz_or_nc  cmpsx   $13a, $173
+0b58 00000400 _ret_        ror     2, 0
+0b5c 73706d63 if_nz_or_nc  fles    $36, $163 wc
+0b60 04006275 _ret_        bitl    $31, $75
+0b64 00656766 _ret_        shl     $b3, #$166
+0b68 00656c66 _ret_        shl     $b6, #$66
+0b6c 73656766 if_nz_or_nc  fles    $b3, #$166
+0b70 00000400 _ret_        ror     2, 0
+0b74 73656c66 if_nz_or_nc  fles    $b6, #$66
+0b78 00000400 _ret_        ror     2, 0
+0b7c 636d7573 if_z_ne_c    fles    $ba, #$173 wz
+0b80 00000400 _ret_        ror     2, 0
+0b84 6e6d7573 if_z_ne_c    calld   $1f9, #\$d7573
+0b88 00040063 _ret_        ror     0, #$63
+0b8c 7a6d7573 if_nz_or_nc  addct2  $ba, #$173
+0b90 00000400 _ret_        ror     2, 0
+0b94 6e6d7573 if_z_ne_c    calld   $1f9, #\$d7573
+0b98 0004007a _ret_        ror     0, #$7a
+0b9c 6c746962 if_z_ne_c    rdfast  $34, #$162
+0ba0 00000400 _ret_        ror     2, 0
+0ba4 68746962 if_z_ne_c    getnib  $34, #$162, #6
+0ba8 00000400 _ret_        ror     2, 0
+0bac 63746962 if_z_ne_c    fles    $34, #$162 wc
+0bb0 00000400 _ret_        ror     2, 0
+0bb4 6e746962 if_z_ne_c    calld   $1f9, #$+$46966
+0bb8 00040063 _ret_        ror     0, #$63
+0bbc 7a746962 if_nz_or_nc  addct3  $34, #$162
+0bc0 00000400 _ret_        ror     2, 0
+0bc4 6e746962 if_z_ne_c    calld   $1f9, #$+$46966
+0bc8 0004007a _ret_        ror     0, #$7a
+0bcc 6e746962 if_z_ne_c    calld   $1f9, #$+$46966
+0bd0 0400746f _ret_        bitl    $3a, $6f
+0bd4 6e646e61 if_z_ne_c    calld   $1f9, #\$46e61
+0bd8 00000400 _ret_        ror     2, 0
+0bdc 00646e61 _ret_        shl     $37, #$61
+0be0 0400726f _ret_        bitl    $39, $6f
+0be4 00726f78 _ret_        shl     $137, $178 wc
+0be8 6378756d if_z_ne_c    fles    $3a, $16d wcz
+0bec 00000400 _ret_        ror     2, 0
+0bf0 6e78756d              long    $6e78756d
+0bf4 00040063 _ret_        ror     0, #$63
+0bf8 7a78756d if_nz_or_nc  wmlong  $3a, $16d
+0bfc 00000400 _ret_        ror     2, 0
+0c00 6e78756d              long    $6e78756d
+0c04 0004007a _ret_        ror     0, #$7a
+0c08 00766f6d _ret_        shl     $137, #$16d wc
+0c0c 00746f6e _ret_        shl     $37, #$16e wc
+0c10 00736261 _ret_        shl     $1b1, $61 wc
+0c14 0067656e _ret_        shl     $1b2, #$16e
+0c18 6367656e if_z_ne_c    fles    $1b2, #$16e
+0c1c 00000400 _ret_        ror     2, 0
+0c20 6e67656e if_z_ne_c    calld   $1f9, #\$7656e
+0c24 00040063 _ret_        ror     0, #$63
+0c28 7a67656e if_nz_or_nc  addct1  $1b2, #$16e
+0c2c 00000400 _ret_        ror     2, 0
+0c30 6e67656e if_z_ne_c    calld   $1f9, #\$7656e
+0c34 0004007a _ret_        ror     0, #$7a
+0c38 6d636e69 if_z_ne_c    rev     $1b7
+0c3c 0400646f _ret_        bitl    $32, $6f
+0c40 6d636564              long    $6d636564
+0c44 0400646f _ret_        bitl    $32, $6f
+0c48 6f636e65 if_z_ne_c    augs    #$636e65 << 9
+0c4c 00040064 _ret_        ror     0, #$64
+0c50 74736574 if_nz_or_nc  testbn  $1b2, $174 andc
+0c54 0004006e _ret_        ror     0, #$6e
+0c58 74736574 if_nz_or_nc  testbn  $1b2, $174 andc
+0c5c 00000400 _ret_        ror     2, 0
+0c60 73656e6f if_nz_or_nc  fles    $b7, #$6f
+0c64 00000400 _ret_        ror     2, 0
+0c68 6e746573 if_z_ne_c    calld   $1f9, #$+$46577
+0c6c 04006269 _ret_        bitl    $31, $69
+0c70 6e746567 if_z_ne_c    calld   $1f9, #$+$4656b
+0c74 04006269 _ret_        bitl    $31, $69
+0c78 6e6c6f72 if_z_ne_c    calld   $1f9, #\$c6f72
+0c7c 04006269 _ret_        bitl    $31, $69
+0c80 62746573 if_z_ne_c    cmpsx   $32, #$173 wc
+0c84 00657479 _ret_        shl     $ba, #$79
+0c88 62746567 if_z_ne_c    cmpsx   $32, #$167 wc
+0c8c 00657479 _ret_        shl     $ba, #$79
+0c90 626c6f72 if_z_ne_c    cmpsx   $37, #$172 wz
+0c94 00657479 _ret_        shl     $ba, #$79
+0c98 77746567 if_nz_or_nc  signx   $32, #$167 wc
+0c9c 0064726f _ret_        shl     $39, #$6f
+0ca0 73746573 if_nz_or_nc  fles    $32, #$173 wc
+0ca4 00000400 _ret_        ror     2, 0
+0ca8 6e676973 if_z_ne_c    calld   $1f9, #\$76973
+0cac 00040078 _ret_        ror     0, #$78
+0cb0 62766f6d if_z_ne_c    cmpsx   $137, #$16d wc
+0cb4 00737479 _ret_        shl     $1ba, $79 wc
+0cb8 736c756d if_nz_or_nc  fles    $3a, #$16d wz
+0cbc 00000400 _ret_        ror     2, 0
+0cc0 00000ad0 _ret_        ror     5, $d0
+0cc4 00000ad4 _ret_        ror     5, $d4
+0cc8 00000ad8 _ret_        ror     5, $d8
+0ccc 00000adc _ret_        ror     5, $dc
+0cd0 00000ae0 _ret_        ror     5, $e0
+0cd4 00000ae4 _ret_        ror     5, $e4
+0cd8 00000ae8 _ret_        ror     5, $e8
+0cdc 00000aec _ret_        ror     5, $ec
+0ce0 00000af0 _ret_        ror     5, $f0
+0ce4 00000af4 _ret_        ror     5, $f4
+0ce8 00000afc _ret_        ror     5, $fc
+0cec 00000b04 _ret_        ror     5, $104
+0cf0 00000b0c _ret_        ror     5, $10c
+0cf4 00000b10 _ret_        ror     5, $110
+0cf8 00000b18 _ret_        ror     5, $118
+0cfc 00000b20 _ret_        ror     5, $120
+0d00 00000b28 _ret_        ror     5, $128
+0d04 00000b2c _ret_        ror     5, $12c
+0d08 00000b34 _ret_        ror     5, $134
+0d0c 00000b3c _ret_        ror     5, $13c
+0d10 00000b44 _ret_        ror     5, $144
+0d14 00000b4c _ret_        ror     5, $14c
+0d18 00000b54 _ret_        ror     5, $154
+0d1c 00000b5c _ret_        ror     5, $15c
+0d20 00000b64 _ret_        ror     5, $164
+0d24 00000b68 _ret_        ror     5, $168
+0d28 00000b6c _ret_        ror     5, $16c
+0d2c 00000b74 _ret_        ror     5, $174
+0d30 00000b7c _ret_        ror     5, $17c
+0d34 00000b84 _ret_        ror     5, $184
+0d38 00000b8c _ret_        ror     5, $18c
+0d3c 00000b94 _ret_        ror     5, $194
+0d40 00000b9c _ret_        ror     5, $19c
+0d44 00000ba4 _ret_        ror     5, $1a4
+0d48 00000bac _ret_        ror     5, $1ac
+0d4c 00000bb4 _ret_        ror     5, $1b4
+0d50 00000bbc _ret_        ror     5, $1bc
+0d54 00000bc4 _ret_        ror     5, $1c4
+0d58 00000bcc _ret_        ror     5, $1cc
+0d5c 00000bd4 _ret_        ror     5, $1d4
+0d60 00000bdc _ret_        ror     5, $1dc
+0d64 00000be0 _ret_        ror     5, $1e0
+0d68 00000be4 _ret_        ror     5, $1e4
+0d6c 00000be8 _ret_        ror     5, $1e8
+0d70 00000bf0 _ret_        ror     5, $1f0
+0d74 00000bf8 _ret_        ror     5, $1f8
+0d78 00000c00 _ret_        ror     6, 0
+0d7c 00000c08 _ret_        ror     6, 8
+0d80 00000c0c _ret_        ror     6, $c
+0d84 00000c10 _ret_        ror     6, $10
+0d88 00000c14 _ret_        ror     6, $14
+0d8c 00000c18 _ret_        ror     6, $18
+0d90 00000c20 _ret_        ror     6, $20
+0d94 00000c28 _ret_        ror     6, $28
+0d98 00000c30 _ret_        ror     6, $30
+0d9c 00000c38 _ret_        ror     6, $38
+0da0 00000c40 _ret_        ror     6, $40
+0da4 00000c48 _ret_        ror     6, $48
+0da8 00000c50 _ret_        ror     6, $50
+0dac 00000c58 _ret_        ror     6, $58
+0db0 00000c60 _ret_        ror     6, $60
+0db4 00000c68 _ret_        ror     6, $68
+0db8 00000c70 _ret_        ror     6, $70
+0dbc 00000c78 _ret_        ror     6, $78
+0dc0 00000c80 _ret_        ror     6, $80
+0dc4 00000c88 _ret_        ror     6, $88
+0dc8 00000c90 _ret_        ror     6, $90
+0dcc 00000c98 _ret_        ror     6, $98
+0dd0 00000ca0 _ret_        ror     6, $a0
+0dd4 00000ca8 _ret_        ror     6, $a8
+0dd8 00000cb0 _ret_        ror     6, $b0
+0ddc 00000cb8 _ret_        ror     6, $b8
+0de0 f1842c04              sub     $16, #4
+0de4 fc602816              wrlong  $14, $16
+0de8 f1842c04              sub     $16, #4
+0dec fc602a16              wrlong  $15, $16
+0df0 f1842c04              sub     $16, #4
+0df4 fc63ec16              wrlong  $1f6, $16
+0df8 f6002a08              mov     $15, 8
+0dfc f6002808              mov     $14, 8
+0e00 f1842a01              sub     $15, #1
+0e04 fe100490              calld   $1f6, #$+$494
+0e08 f25c2a00              cmps    $15, #0 wcz
+0e0c e6040e01 if_z_or_c    mov     7, #1
+0e10 ed900010 if_z_or_c    jmp     #$+$14
+0e14 f6040e20              mov     7, #$20
+0e18 fe10047c              calld   $1f6, #$+$480
+0e1c fb6c2bfd              djnz    $15, #$-8
+0e20 f6000e14              mov     7, $14
+0e24 fb03ec16              rdlong  $1f6, $16
+0e28 f1042c04              add     $16, #4
+0e2c fb002a16              rdlong  $15, $16
+0e30 f1042c04              add     $16, #4
+0e34 fb002816              rdlong  $14, $16
+0e38 f1042c04              add     $16, #4
+0e3c fd63ec2c              jmp     $1f6
+0e40 f1842c04              sub     $16, #4
+0e44 fc601e16              wrlong  $f, $16
+0e48 f1842c04              sub     $16, #4
+0e4c fc602016              wrlong  $10, $16
+0e50 f1842c04              sub     $16, #4
+0e54 fc602216              wrlong  $11, $16
+0e58 f1842c04              sub     $16, #4
+0e5c fc602416              wrlong  $12, $16
+0e60 f1842c04              sub     $16, #4
+0e64 fc602616              wrlong  $13, $16
+0e68 f1842c04              sub     $16, #4
+0e6c fc602816              wrlong  $14, $16
+0e70 f1842c04              sub     $16, #4
+0e74 fc602a16              wrlong  $15, $16
+0e78 f1842c04              sub     $16, #4
+0e7c fc63ec16              wrlong  $1f6, $16
+0e80 f1842c24              sub     $16, #$24
+0e84 f6041c1c              mov     $e, #$1c
+0e88 f6001a16              mov     $d, $16
+0e8c f1001c16              add     $e, $16
+0e90 f6041818              mov     $c, #$18
+0e94 f1041a01              add     $d, #1
+0e98 f6002616              mov     $13, $16
+0e9c f1001816              add     $c, $16
+0ea0 f1042648              add     $13, #$48
+0ea4 f6042200              mov     $11, #0
+0ea8 fc601a0e              wrlong  $d, $e
+0eac f1041c28              add     $e, #$28
+0eb0 fc602c0c              wrlong  $16, $c
+0eb4 fb00280e              rdlong  $14, $e
+0eb8 fac80e14              rdbyte  7, $14 wz
+0ebc ad900020 if_z         jmp     #$+$24
+0ec0 f25c0e25              cmps    7, #$25 wcz
+0ec4 ad900064 if_z         jmp     #$+$68
+0ec8 f6041001              mov     8, #1
+0ecc f1042801              add     $14, #1
+0ed0 fb27edc3              calld   $1f6, #$-$f0
+0ed4 f1002207              add     $11, 7
+0ed8 fac80e14              rdbyte  7, $14 wz
+0edc 5d9fffe0 if_nz        jmp     #$-$1c
+0ee0 f6000e11              mov     7, $11
+0ee4 f1042c24              add     $16, #$24
+0ee8 fb03ec16              rdlong  $1f6, $16
+0eec f1042c04              add     $16, #4
+0ef0 fb002a16              rdlong  $15, $16
+0ef4 f1042c04              add     $16, #4
+0ef8 fb002816              rdlong  $14, $16
+0efc f1042c04              add     $16, #4
+0f00 fb002616              rdlong  $13, $16
+0f04 f1042c04              add     $16, #4
+0f08 fb002416              rdlong  $12, $16
+0f0c f1042c04              add     $16, #4
+0f10 fb002216              rdlong  $11, $16
+0f14 f1042c04              add     $16, #4
+0f18 fb002016              rdlong  $10, $16
+0f1c f1042c04              add     $16, #4
+0f20 fb001e16              rdlong  $f, $16
+0f24 f1042c04              add     $16, #4
+0f28 fd63ec2c              jmp     $1f6
+0f2c f6001c14              mov     $e, $14
+0f30 f1041c01              add     $e, #1
+0f34 f1042802              add     $14, #2
+0f38 fac01c0e              rdbyte  $e, $e
+0f3c f25c1c30              cmps    $e, #$30 wcz
+0f40 ad9000b8 if_z         jmp     #$+$bc
+0f44 f25c1c00              cmps    $e, #0 wcz
+0f48 ad9fff94 if_z         jmp     #$-$68
+0f4c f600180e              mov     $c, $e
+0f50 f1841830              sub     $c, #$30
+0f54 f21c1809              cmp     $c, #9 wcz
+0f58 f6001a0e              mov     $d, $e
+0f5c f6041e20              mov     $f, #$20
+0f60 16042a00 if_nz_and_nc mov     $15, #0
+0f64 ed90009c if_z_or_c    jmp     #$+$a0
+0f68 f25c1c4c              cmps    $e, #$4c wcz
+0f6c f6041800              mov     $c, #0
+0f70 f5c41801              muxz    $c, #1
+0f74 f6041a00              mov     $d, #0
+0f78 f25c1c6c              cmps    $e, #$6c wcz
+0f7c f5c41a01              muxz    $d, #1
+0f80 f6002e0c              mov     $17, $c
+0f84 f5482e0d              or      $17, $d wz
+0f88 ad90002c if_z         jmp     #$+$30
+0f8c fac01c14              rdbyte  $e, $14
+0f90 f25c1c4c              cmps    $e, #$4c wcz
+0f94 f6041800              mov     $c, #0
+0f98 f5c41801              muxz    $c, #1
+0f9c f6041a00              mov     $d, #0
+0fa0 f25c1c6c              cmps    $e, #$6c wcz
+0fa4 f5c41a01              muxz    $d, #1
+0fa8 f6002e0c              mov     $17, $c
+0fac f5482e0d              or      $17, $d wz
+0fb0 f1042801              add     $14, #1
+0fb4 5d9fffd4 if_nz        jmp     #$-$28
+0fb8 f25c1c00              cmps    $e, #0 wcz
+0fbc ad9fff20 if_z         jmp     #$-$dc
+0fc0 f25c1c73              cmps    $e, #$73 wcz
+0fc4 ad9000b4 if_z         jmp     #$+$b8
+0fc8 f21c1c73              cmp     $e, #$73 wcz
+0fcc 1d90007c if_nz_and_nc jmp     #$+$80
+0fd0 f25c1c63              cmps    $e, #$63 wcz
+0fd4 ad900120 if_z         jmp     #$+$124
+0fd8 f25c1c64              cmps    $e, #$64 wcz
+0fdc ad900130 if_z         jmp     #$+$134
+0fe0 f25c1c25              cmps    $e, #$25 wcz
+0fe4 5d9ffed0 if_nz        jmp     #$-$12c
+0fe8 f6040e25              mov     7, #$25
+0fec f6001015              mov     8, $15
+0ff0 fb27ed7b              calld   $1f6, #$-$210
+0ff4 f1002207              add     $11, 7
+0ff8 fd9ffebc              jmp     #$-$140
+0ffc f6041a30              mov     $d, #$30
+1000 f6041e30              mov     $f, #$30
+1004 f6042a00              mov     $15, #0
+1008 fd900008              jmp     #$+$c
+100c f21c1809              cmp     $c, #9 wcz
+1010 1d9fff54 if_nz_and_nc jmp     #$-$a8
+1014 f6001c15              mov     $e, $15
+1018 f0641c01              shl     $e, #1
+101c f0642a03              shl     $15, #3
+1020 f1002a0e              add     $15, $e
+1024 f1841a30              sub     $d, #$30
+1028 f1002a0d              add     $15, $d
+102c fac01c14              rdbyte  $e, $14
+1030 f600180e              mov     $c, $e
+1034 f25c1c00              cmps    $e, #0 wcz
+1038 f6001a0e              mov     $d, $e
+103c f1841830              sub     $c, #$30
+1040 f1042801              add     $14, #1
+1044 5d9fffc4 if_nz        jmp     #$-$38
+1048 fd9ffe94              jmp     #$-$168
+104c f25c1c75              cmps    $e, #$75 wcz
+1050 ad9000bc if_z         jmp     #$+$c0
+1054 f25c1c78              cmps    $e, #$78 wcz
+1058 5d9ffe5c if_nz        jmp     #$-$1a0
+105c f6001813              mov     $c, $13
+1060 f6041a20              mov     $d, #$20
+1064 f1041804              add     $c, #4
+1068 f1001a16              add     $d, $16
+106c f6041c10              mov     $e, #$10
+1070 fc60180d              wrlong  $c, $d
+1074 fb002613              rdlong  $13, $13
+1078 fd9000c0              jmp     #$+$c4
+107c fb002413              rdlong  $12, $13
+1080 f6002013              mov     $10, $13
+1084 f1042004              add     $10, #4
+1088 fac80e12              rdbyte  7, $12 wz
+108c a6001c15 if_z         mov     $e, $15
+1090 a6042600 if_z         mov     $13, #0
+1094 ad900020 if_z         jmp     #$+$24
+1098 f6042600              mov     $13, #0
+109c fe1001f8              long    $fe1001f8
+10a0 f1042401              add     $12, #1
+10a4 f1042601              add     $13, #1
+10a8 f6001c15              mov     $e, $15
+10ac f1801c13              sub     $e, $13
+10b0 fac80e12              rdbyte  7, $12 wz
+10b4 5d9fffe4 if_nz        jmp     #$-$18
+10b8 f25c1c00              cmps    $e, #0 wcz
+10bc ed90002c if_z_or_c    jmp     #$+$30
+10c0 f600240e              mov     $12, $e
+10c4 f1842401              sub     $12, #1
+10c8 f6002a12              mov     $15, $12
+10cc f6040e20              mov     7, #$20
+10d0 f1842a01              sub     $15, #1
+10d4 fe1001c0              long    $fe1001c0
+10d8 f6641801              neg     $c, #1
+10dc f2582a0c              cmps    $15, $c wcz
+10e0 5d9fffe8 if_nz        jmp     #$-$14
+10e4 f1042601              add     $13, #1
+10e8 f1002612              add     $13, $12
+10ec f1002213              add     $11, $13
+10f0 f6002610              mov     $13, $10
+10f4 fd9ffdc0              jmp     #$-$23c
+10f8 fb000e13              rdlong  7, $13
+10fc f6001015              mov     8, $15
+1100 f1042604              add     $13, #4
+1104 fb27ed36              calld   $1f6, #$-$324
+1108 f1002207              add     $11, 7
+110c fd9ffda8              jmp     #$-$254
+1110 f25c1c78              cmps    $e, #$78 wcz
+1114 ad9fff44 if_z         jmp     #$-$b8
+1118 f6001a13              mov     $d, $13
+111c f6041820              mov     $c, #$20
+1120 f1041a04              add     $d, #4
+1124 f1001816              add     $c, $16
+1128 f25c1c64              cmps    $e, #$64 wcz
+112c fc601a0c              wrlong  $d, $c
+1130 fb002613              rdlong  $13, $13
+1134 ad9000ec if_z         jmp     #$+$f0
+1138 f6041c0a              mov     $e, #$a
+113c f6002016              mov     $10, $16
+1140 f1042000              add     $10, #0
+1144 f6000e13              mov     7, $13
+1148 f600100e              mov     8, $e
+114c f1842a01              sub     $15, #1
+1150 fda0004b              call    #\$4b
+1154 f25c1009              cmps    8, #9 wcz
+1158 f6002408              mov     $12, 8
+115c e1042430 if_z_or_c    add     $12, #$30
+1160 11042437 if_nz_and_nc add     $12, #$37
+1164 f6000e13              mov     7, $13
+1168 f600100e              mov     8, $e
+116c f50424ff              and     $12, #$ff
+1170 fda0004b              call    #\$4b
+1174 fc402410              wrbyte  $12, $10
+1178 f25c0e00              cmps    7, #0 wcz
+117c f6002607              mov     $13, 7
+1180 f1042001              add     $10, #1
+1184 5d9fffbc if_nz        jmp     #$-$40
+1188 f25c2a00              cmps    $15, #0 wcz
+118c e6042a00 if_z_or_c    mov     $15, #0
+1190 ed900020 if_z_or_c    jmp     #$+$24
+1194 f6002615              mov     $13, $15
+1198 f1842601              sub     $13, #1
+119c f6000e0f              mov     7, $f
+11a0 f1842601              sub     $13, #1
+11a4 fe1000f0              long    $fe1000f0
+11a8 f6641a01              neg     $d, #1
+11ac f258260d              cmps    $13, $d wcz
+11b0 5d9fffe8 if_nz        jmp     #$-$14
+11b4 f6041c18              mov     $e, #$18
+11b8 f1001c16              add     $e, $16
+11bc fb001c0e              rdlong  $e, $e
+11c0 f2581c10              cmps    $e, $10 wcz
+11c4 ad900048 if_z         jmp     #$+$4c
+11c8 f6002610              mov     $13, $10
+11cc fd900008              jmp     #$+$c
+11d0 fac0240e              rdbyte  $12, $e
+11d4 f1842601              sub     $13, #1
+11d8 f6000e12              mov     7, $12
+11dc fe1000b8              long    $fe1000b8
+11e0 f604181c              mov     $c, #$1c
+11e4 f1001816              add     $c, $16
+11e8 f6001c13              mov     $e, $13
+11ec f1841c02              sub     $e, #2
+11f0 fb00180c              rdlong  $c, $c
+11f4 f258260c              cmps    $13, $c wcz
+11f8 5d9fffd4 if_nz        jmp     #$-$28
+11fc f6041a18              mov     $d, #$18
+1200 f1001a16              add     $d, $16
+1204 fb001a0d              rdlong  $d, $d
+1208 f180200d              sub     $10, $d
+120c f1002a10              add     $15, $10
+1210 f6041c20              mov     $e, #$20
+1214 f1001c16              add     $e, $16
+1218 f1002215              add     $11, $15
+121c fb00260e              rdlong  $13, $e
+1220 fd9ffc94              jmp     #$-$368
+1224 f25c2600              cmps    $13, #0 wcz
+1228 3d9fff0c if_nc        jmp     #$-$f0
+122c f6040e2d              mov     7, #$2d
+1230 f6041001              mov     8, #1
+1234 f1842a01              sub     $15, #1
+1238 f6602613              neg     $13, $13
+123c fe1ffba0              calld   $1f6, #$-$45c
+1240 f1002207              add     $11, 7
+1244 f6041c0a              mov     $e, #$a
+1248 fd9ffef0              jmp     #$-$10c
+124c f1842c04              sub     $16, #4
+1250 fc602a16              wrlong  $15, $16
+1254 f1842c04              sub     $16, #4
+1258 fc63ec16              wrlong  $1f6, $16
+125c f6002a07              mov     $15, 7
+1260 fac80e07              rdbyte  7, 7 wz
+1264 ad900010 if_z         jmp     #$+$14
+1268 f1042a01              add     $15, #1
+126c fe100028              long    $fe100028
+1270 fac80e15              rdbyte  7, $15 wz
+1274 5d9ffff0 if_nz        jmp     #$-$c
+1278 f6040e0a              mov     7, #$a
+127c fe100018              long    $fe100018
+1280 f6040e00              mov     7, #0
+1284 fb03ec16              rdlong  $1f6, $16
+1288 f1042c04              add     $16, #4
+128c fb002a16              rdlong  $15, $16
+1290 f1042c04              add     $16, #4
+1294 fd63ec2c              jmp     $1f6
+1298 f1842c04              sub     $16, #4
+129c fc602a16              wrlong  $15, $16
+12a0 f1842c04              sub     $16, #4
+12a4 fc63ec16              wrlong  $1f6, $16
+12a8 f25c0e0a              cmps    7, #$a wcz
+12ac f6002a07              mov     $15, 7
+12b0 a6040e0d if_z         mov     7, #$d
+12b4 ae100020              long    $ae100020
+12b8 f6000e15              mov     7, $15
+12bc fe100018              long    $fe100018
+12c0 f6000e15              mov     7, $15
+12c4 fb03ec16              rdlong  $1f6, $16
+12c8 f1042c04              add     $16, #4
+12cc fb002a16              rdlong  $15, $16
+12d0 f1042c04              add     $16, #4
+12d4 fd63ec2c              jmp     $1f6
+12d8 f5440f00              or      7, #$100
+12dc f0640e01              shl     7, #1
+12e0 f604100a              mov     8, #$a
+12e4 fd60121a              getct   9
+12e8 f0540e01              shr     7, #1 wc
+12ec fd647c5a              drvc    #$3e
+12f0 ff000001              augs    #1 << 9
+12f4 fa6412b6              addct1  9, #$b6
+12f8 fd602224              waitct1 
+12fc fb6c11fa              djnz    8, #$-$14
+1300 fd63ec2c              jmp     $1f6
+1304 ff02625a              augs    #$2625a << 9
+1308 f6041000              mov     8, #0
+130c fda0003c              call    #\$3c
+1310 fd600e1f              waitx   7
+1314 fd63ec2c              jmp     $1f6
+1318 f6081209              mov     9, 9 wz
+131c ad900018 if_z         jmp     #$+$1c
+1320 f6001c07              mov     $e, 7
+1324 fac01a08              rdbyte  $d, 8
+1328 f1041001              add     8, #1
+132c fc401a0e              wrbyte  $d, $e
+1330 f1041c01              add     $e, #1
+1334 fb6c13fb              djnz    9, #$-$10
+1338 fd63ec2c              jmp     $1f6
+133c fac81a08              rdbyte  $d, 8 wz
+1340 f6001c07              mov     $e, 7
+1344 ad900014 if_z         jmp     #$+$18
+1348 fc401a0e              wrbyte  $d, $e
+134c f1041001              add     8, #1
+1350 f1041c01              add     $e, #1
+1354 fac81a08              rdbyte  $d, 8 wz
+1358 5d9fffec if_nz        jmp     #$-$10
+135c f6041a00              mov     $d, #0
+1360 fc401a0e              wrbyte  $d, $e
+1364 fd63ec2c              jmp     $1f6
+1368 f6001c07              mov     $e, 7
+136c fac01a0e              rdbyte  $d, $e
+1370 f25c1a00              cmps    $d, #0 wcz
+1374 f1041c01              add     $e, #1
+1378 5d9ffff0 if_nz        jmp     #$-$c
+137c f1801c07              sub     $e, 7
+1380 f6000e0e              mov     7, $e
+1384 f1840e01              sub     7, #1
+1388 fd63ec2c              jmp     $1f6
