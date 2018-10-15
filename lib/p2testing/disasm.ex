@@ -581,6 +581,7 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1101111           R           A           A             AAAAAAAAA             AAAAAAAAA                                                CALLB   #A
   #-                   EEEE                    11101WW           R           A           A             AAAAAAAAA             AAAAAAAAA                                                LOC     PA/PB/PTRA/PTRB,#A
   #-                   EEEE                    11110NN           N           N           N             NNNNNNNNN             NNNNNNNNN                                                AUGS    #N
+  def disasm_instr(_addr, <<   cnd::size(4),   0b11110::size(5), d::size(23) >>), do: [disasm_c(<<cnd::size(4)>>), "AUGS",   "##{iVal(0,d)} << 9",     "",          ""       ]
   #-                   EEEE                    11111NN           N           N           N             NNNNNNNNN             NNNNNNNNN                                                AUGD    #N
 	
 
