@@ -333,6 +333,10 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1011010           1           L           I             DDDDDDDDD             SSSSSSSSS                                                CALLPB  {#}D,{#}S
   #-                   EEEE                    1011011           0           0           I             DDDDDDDDD             SSSSSSSSS                                                DJZ     D,{#}S
   #-                   EEEE                    1011011           0           1           I             DDDDDDDDD             SSSSSSSSS                                                DJNZ    D,{#}S
+  def disasm_instr( addr, <<   cnd::size(4), 0b1011011::size(7), c::size(1), 1::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "DJNZ",     iVal(0,d),     djnz(addr,i,to_signed(<<s::size(9)>>)+1),   ""] #4
+  def djnz(addrr, flag,addr) when addrr < 0x400, do: "#{ref?(flag)}$#{hex(addr)}"
+  def djnz(addrr, flag,addr), do: "#{ref?(flag)}#{callr?(flag, (addr*4)+4)}#{iVl(0,(addr*4))}"
+
   #-                   EEEE                    1011011           1           0           I             DDDDDDDDD             SSSSSSSSS                                                DJF     D,{#}S
   #-                   EEEE                    1011011           1           1           I             DDDDDDDDD             SSSSSSSSS                                                DJNF    D,{#}S
   #-                   EEEE                    1011100           0           0           I             DDDDDDDDD             SSSSSSSSS                                                IJZ     D,{#}S
@@ -404,6 +408,10 @@ defmodule P2Testing.Disasm do
   #-                   EEEE                    1101000           0           L           I             DDDDDDDDD             SSSSSSSSS                                                QMUL    {#}D,{#}S
   #-                   EEEE                    1101000           1           L           I             DDDDDDDDD             SSSSSSSSS                                                QDIV    {#}D,{#}S
   #-                   EEEE                    1101001           0           L           I             DDDDDDDDD             SSSSSSSSS                                                QFRAC   {#}D,{#}S
+  def disasm_instr( addr, <<   cnd::size(4), 0b1101001::size(7), 0::size(1), l::size(1), i::size(1),           d::size(9),           s::size(9)>>), do: [disasm_c(<<cnd::size(4)>>), "QFRAC",     qfrac(addr,0,d),     qfrac(addr,i,s),   ""] 
+  def qfrac(addr,r,a) when addr < 0x400,  do: "##{callr?(r,a)}#{iVl(0,(div(a,4))+1)}"
+  def qfrac(addr,r,a),                    do: "#{callr?(r,a)}#{iVl(0,a)}"
+
   #-                   EEEE                    1101001           1           L           I             DDDDDDDDD             SSSSSSSSS                                                QSQRT   {#}D,{#}S
   #-                   EEEE                    1101010           0           L           I             DDDDDDDDD             SSSSSSSSS                                                QROTATE {#}D,{#}S
   #-                   EEEE                    1101010           1           L           I             DDDDDDDDD             SSSSSSSSS                                                QVECTOR {#}D,{#}S
