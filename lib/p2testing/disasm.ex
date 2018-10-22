@@ -628,7 +628,7 @@ defmodule P2Testing.Disasm do
   def disasm_instr(addr,  <<   cnd::size(4), 0b1101101::size(7), r::size(1),                                   a::size(20)                     >>), do: [disasm_c(<<cnd::size(4)>>), "CALL",    calla(addr,r,a), "",          ""       ]
 
   ## Invalid instructions are caught here
-  def disasm_instr(_,_), do: "disasm_instr: WTF"
+  def disasm_instr(_,x), do: "disasm_instr: #{inspect(x)}"
 
 
 

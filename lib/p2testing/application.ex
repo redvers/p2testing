@@ -10,7 +10,8 @@ defmodule P2testing.Application do
     children = [
       # Starts a worker by calling: P2testing.Worker.start_link(arg)
       {P2Testing.CNT, [:ok]},
-      {P2Testing.Hub, [:ok]}
+      {P2Testing.Hub, [:ok]},
+      {P2Testing.Cog, :cog0}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
