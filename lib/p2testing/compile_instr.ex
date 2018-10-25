@@ -28,7 +28,7 @@ defmodule P2Testing.CompileInstr do
 
   def matchmatch(text,f,g,h) do
     [_,instr,rest] = Regex.run(~r/^([01]+)(.+)$/, text)
-    "  def disasmInstr(funct, addr, <<con::size(4), 0b#{instr}::size(#{String.length(instr)}) #{dd(rest)}>>), do: funct.(%{addr: addr,con: con, instr: \"#{f}\", vars: {#{dvars(rest)}}})\n"
+    "  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b#{instr}::size(#{String.length(instr)}) #{dd(rest)}>>), do: funct.(%{addr: addr,con: con, instr: \"#{f}\", vars: {#{dvars(rest)}}, fullbin: fullbin})\n"
   end
 
   def d(text) when is_binary(text) do
