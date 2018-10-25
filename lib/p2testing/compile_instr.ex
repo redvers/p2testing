@@ -2,8 +2,14 @@ require Logger
 defmodule P2Testing.CompileInstr do
   def compile do
     ["defmodule P2Testing.Disasm2 do\n",
+     "  def disasmInstr(funct, addr, <<0b00000000000000000000000000000000::size(32)>>), do: funct.(%{addr: addr,con: 0, instr: \"NOP\", binary: <<0::size(32)>>})\n",
       compile("instructions_only.txt"),
      "end\n"]
+  end
+
+  def compile! do
+    data = compile
+    File.write!("lib/p2testing/disasm2.ex", data)
   end
 
   def compile(filename) do
@@ -17,12 +23,12 @@ defmodule P2Testing.CompileInstr do
   def matchline(<< "\n" >> ), do: :ok
   def matchline(regexme) do
     [a,b,c,d,e,f,g,h] = Regex.run(~r/^EEEE (.......) (...) (.........) (.........)\s+([^ ]+)\s+([^ ]*)\s*([^ ]*)/, regexme) 
-    "#   #{String.trim(a)}\n#{matchmatch("#{b}#{c}#{d}#{e}",f,g,h)}"
+    "#                                           #{String.trim(a)}\n#{matchmatch("#{b}#{c}#{d}#{e}",f,g,h)}"
   end
 
   def matchmatch(text,f,g,h) do
     [_,instr,rest] = Regex.run(~r/^([01]+)(.+)$/, text)
-    "  def disasmInstr(funct, addr, <<con::size(4), 0b#{instr}::size(#{String.length(instr)}) #{dd(rest)}>>), do: funct.(%{addr: addr,con: con, instr: \"#{f}\", binary: <<#{d(rest)}>>})\n"
+    "  def disasmInstr(funct, addr, <<con::size(4), 0b#{instr}::size(#{String.length(instr)}) #{dd(rest)}>>), do: funct.(%{addr: addr,con: con, instr: \"#{f}\", vars: {#{dvars(rest)}}})\n"
   end
 
   def d(text) when is_binary(text) do
@@ -30,6 +36,28 @@ defmodule P2Testing.CompileInstr do
     |> String.to_charlist
     |> d([{'', 0}])
   end
+
+  def dvars(rest) do
+    d(rest)
+    |> String.split(",")
+    |> Enum.reject(&(&1 == ""))
+    |> Enum.map(fn(t) ->
+      case Regex.match?(~r/^0b/, t) do
+        true -> "<< #{t} >>"
+        false -> Regex.replace(~r/::size\(\d+\)/, t, "\\1")
+      end
+    end)
+    |> Enum.join(",")
+
+
+
+
+
+    #    Regex.replace(~r/([^01b]+)::size\(\d+\)/, d(rest), "\\1")
+  end
+
+
+
 
   def dd(rest) do
     ",#{d(rest)}"
