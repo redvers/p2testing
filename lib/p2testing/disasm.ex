@@ -1,5 +1,23 @@
 
 defmodule P2Testing.Disasm do
+  def tfile do
+     t = dfile("testops.bin")
+     |> Enum.map(&map_wtfs/1)
+     |> Enum.join("\n")
+ 
+    File.write!("nopandjmp-disasm.dasm", t <> "\n")
+  end
+
+  def map_wtfs(map = %{addr: addr, fullbin: <<fullbin::size(32)>>}) when is_map(map) do
+    <<con::size(4), instr::size(7), czi::size(3), d::size(9), s::size(9)>> = <<fullbin::size(32)>>
+    "#{P2Testing.DisasmCode.tohex4(addr)} #{P2Testing.DisasmCode.tohex8(fullbin)}              WTF # #{ExPrintf.sprintf("%04b %07b %03b %09b %09b", [con,instr,czi,d,s])} #{inspect(map)}"
+  end
+  def map_wtfs(binary) when is_binary(binary) do
+    binary
+  end
+
+
+
   def dfile(filename) do
     {:ok, filepid} = File.open(filename, [:binary, :read])
     data = IO.binread(filepid, :all)
@@ -22,6 +40,8 @@ defmodule P2Testing.Disasm do
     dissassemble({rest, addr + 4}, [asm | acc])
   end
 
+  def applydisassemble(map=%{instr: "AND"}), do: apply(P2Testing.DisasmCode, :aand, [map])  # Reserved Word
+  def applydisassemble(map=%{instr: "OR"}),  do: apply(P2Testing.DisasmCode, :oor, [map])   # Reserved Word
   def applydisassemble(map=%{instr: instr}) do
     funcname = instr
     |> String.downcase
@@ -49,13 +69,6 @@ end
 
 
 
-#   def tfile do
-#     t = dfile("testops.bin")
-#     |> Enum.map(&fline/1)
-#     |> Enum.join("\n")
-# 
-#     File.write!("testops-disasm.dasm", t)
-#   end
 # 
 #   def fline({addr, hex, {bitmap, [condition, opcode, "", "", ""]}}) do
 #     ExPrintf.sprintf("%4s %8s %-12s %-7s ", [addr, hex, String.downcase(condition), String.downcase(opcode)])

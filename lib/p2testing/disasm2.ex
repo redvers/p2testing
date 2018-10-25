@@ -1070,4 +1070,6 @@ defmodule P2Testing.Disasm2 do
 
 #                                           EEEE 11111NN NNN NNNNNNNNN NNNNNNNNN        AUGD    #23bits
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b11111::size(5) ,n::size(23),>>), do: funct.(%{addr: addr,con: con, instr: "AUGD", vars: {n}, fullbin: fullbin})
+
+  def disasmInstr(funct, addr, fullbin), do: funct.(%{addr: addr, instr: "WTF", fullbin: fullbin})
 end
