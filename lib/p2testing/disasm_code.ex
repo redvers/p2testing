@@ -9,9 +9,6 @@ defmodule P2Testing.DisasmCode do
     asm = "#{tohex4(addr)} 00000000              nop     "
   end
 
-  def jmp(%{addr: addr, con: con, fullbin: <<fullbin::size(32)>>, instr: "JMP", vars: {1, a}}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              jmp     ##{castSigned9(divCog?(addr, a))}"
-  end
 
   def divCog?(addr, a) when addr < 0x400 do
     div(a,4)+1
@@ -54,7 +51,7 @@ defmodule P2Testing.DisasmCode do
 
 
 
-  def tohex(_,value) when (:erlang.abs(value) < 0x10) do
+  def tohex(_,value) when (:erlang.abs(value) < 0xa) do
     ExPrintf.sprintf("%x", [value])
   end
   def tohex(_,value) do
@@ -73,11 +70,12 @@ defmodule P2Testing.DisasmCode do
 #                                           EEEE 0000000 CZI DDDDDDDDD SSSSSSSSS        ROR     D,S/#       {WC/WZ/WCZ}
   def ror(all=%{addr: addr, con: con, instr: "ROR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
     asm = "#{tohex4(addr)} #{tohex8(fullbin)}              ror     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
-
   end
 
 #                                           EEEE 0000001 CZI DDDDDDDDD SSSSSSSSS        ROL     D,S/#       {WC/WZ/WCZ}
-  def rol(all=%{addr: addr, con: con, instr: "ROL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def rol(all=%{addr: addr, con: con, instr: "ROL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              rol     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0000010 CZI DDDDDDDDD SSSSSSSSS        SHR     D,S/#       {WC/WZ/WCZ}
   def shr(all=%{addr: addr, con: con, instr: "SHR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
@@ -85,13 +83,18 @@ defmodule P2Testing.DisasmCode do
   end
 
 #                                           EEEE 0000011 CZI DDDDDDDDD SSSSSSSSS        SHL     D,S/#       {WC/WZ/WCZ}
-  def shl(all=%{addr: addr, con: con, instr: "SHL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
-
+  def shl(all=%{addr: addr, con: con, instr: "SHL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              shl     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 #                                           EEEE 0000100 CZI DDDDDDDDD SSSSSSSSS        RCR     D,S/#       {WC/WZ/WCZ}
-  def rcr(all=%{addr: addr, con: con, instr: "RCR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def rcr(all=%{addr: addr, con: con, instr: "RCR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              rcr     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0000101 CZI DDDDDDDDD SSSSSSSSS        RCL     D,S/#       {WC/WZ/WCZ}
-  def rcl(all=%{addr: addr, con: con, instr: "RCL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def rcl(all=%{addr: addr, con: con, instr: "RCL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              rcl     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0000110 CZI DDDDDDDDD SSSSSSSSS        SAR     D,S/#       {WC/WZ/WCZ}
   def sar(all=%{addr: addr, con: con, instr: "SAR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -100,16 +103,24 @@ defmodule P2Testing.DisasmCode do
   def sal(all=%{addr: addr, con: con, instr: "SAL", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 0001000 CZI DDDDDDDDD SSSSSSSSS        ADD     D,S/#       {WC/WZ/WCZ}
-  def add(all=%{addr: addr, con: con, instr: "ADD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def add(all=%{addr: addr, con: con, instr: "ADD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              add     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001001 CZI DDDDDDDDD SSSSSSSSS        ADDX    D,S/#       {WC/WZ/WCZ}
-  def addx(all=%{addr: addr, con: con, instr: "ADDX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def addx(all=%{addr: addr, con: con, instr: "ADDX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              addx    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001010 CZI DDDDDDDDD SSSSSSSSS        ADDS    D,S/#       {WC/WZ/WCZ}
-  def adds(all=%{addr: addr, con: con, instr: "ADDS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def adds(all=%{addr: addr, con: con, instr: "ADDS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              adds     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001011 CZI DDDDDDDDD SSSSSSSSS        ADDSX   D,S/#       {WC/WZ/WCZ}
-  def addsx(all=%{addr: addr, con: con, instr: "ADDSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def addsx(all=%{addr: addr, con: con, instr: "ADDSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              addsx    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001100 CZI DDDDDDDDD SSSSSSSSS        SUB     D,S/#       {WC/WZ/WCZ}
   def sub(all=%{addr: addr, con: con, instr: "SUB", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
@@ -117,13 +128,19 @@ defmodule P2Testing.DisasmCode do
   end
 
 #                                           EEEE 0001101 CZI DDDDDDDDD SSSSSSSSS        SUBX    D,S/#       {WC/WZ/WCZ}
-  def subx(all=%{addr: addr, con: con, instr: "SUBX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def subx(all=%{addr: addr, con: con, instr: "SUBX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              subx    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001110 CZI DDDDDDDDD SSSSSSSSS        SUBS    D,S/#       {WC/WZ/WCZ}
-  def subs(all=%{addr: addr, con: con, instr: "SUBS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def subs(all=%{addr: addr, con: con, instr: "SUBS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              subs    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0001111 CZI DDDDDDDDD SSSSSSSSS        SUBSX   D,S/#       {WC/WZ/WCZ}
-  def subsx(all=%{addr: addr, con: con, instr: "SUBSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def subsx(all=%{addr: addr, con: con, instr: "SUBSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              subsx   #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010000 CZI DDDDDDDDD SSSSSSSSS        CMP     D,S/#       {WC/WZ/WCZ}
   def cmp(all=%{addr: addr, con: con, instr: "CMP", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
@@ -131,43 +148,67 @@ defmodule P2Testing.DisasmCode do
   end
 
 #                                           EEEE 0010001 CZI DDDDDDDDD SSSSSSSSS        CMPX    D,S/#       {WC/WZ/WCZ}
-  def cmpx(all=%{addr: addr, con: con, instr: "CMPX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmpx(all=%{addr: addr, con: con, instr: "CMPX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmpx    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010010 CZI DDDDDDDDD SSSSSSSSS        CMPS    D,S/#       {WC/WZ/WCZ}
-  def cmps(all=%{addr: addr, con: con, instr: "CMPS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmps(all=%{addr: addr, con: con, instr: "CMPS", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmps    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010011 CZI DDDDDDDDD SSSSSSSSS        CMPSX   D,S/#       {WC/WZ/WCZ}
-  def cmpsx(all=%{addr: addr, con: con, instr: "CMPSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmpsx(all=%{addr: addr, con: con, instr: "CMPSX", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmpsx   #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010100 CZI DDDDDDDDD SSSSSSSSS        CMPR    D,S/#       {WC/WZ/WCZ}
-  def cmpr(all=%{addr: addr, con: con, instr: "CMPR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmpr(all=%{addr: addr, con: con, instr: "CMPR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmpr    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010101 CZI DDDDDDDDD SSSSSSSSS        CMPM    D,S/#       {WC/WZ/WCZ}
-  def cmpm(all=%{addr: addr, con: con, instr: "CMPM", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmpm(all=%{addr: addr, con: con, instr: "CMPM", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmpm    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0010110 CZI DDDDDDDDD SSSSSSSSS        SUBR    D,S/#       {WC/WZ/WCZ}
   def subr(all=%{addr: addr, con: con, instr: "SUBR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 0010111 CZI DDDDDDDDD SSSSSSSSS        CMPSUB  D,S/#       {WC/WZ/WCZ}
-  def cmpsub(all=%{addr: addr, con: con, instr: "CMPSUB", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def cmpsub(all=%{addr: addr, con: con, instr: "CMPSUB", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cmpsub     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011000 CZI DDDDDDDDD SSSSSSSSS        FGE     D,S/#       {WC/WZ/WCZ}
-  def fge(all=%{addr: addr, con: con, instr: "FGE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def fge(all=%{addr: addr, con: con, instr: "FGE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              fge     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011001 CZI DDDDDDDDD SSSSSSSSS        FLE     D,S/#       {WC/WZ/WCZ}
-  def fle(all=%{addr: addr, con: con, instr: "FLE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def fle(all=%{addr: addr, con: con, instr: "FLE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              fle     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011010 CZI DDDDDDDDD SSSSSSSSS        FGES    D,S/#       {WC/WZ/WCZ}
-  def fges(all=%{addr: addr, con: con, instr: "FGES", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def fges(all=%{addr: addr, con: con, instr: "FGES", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              fges    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011011 CZI DDDDDDDDD SSSSSSSSS        FLES    D,S/#       {WC/WZ/WCZ}
-  def fles(all=%{addr: addr, con: con, instr: "FLES", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def fles(all=%{addr: addr, con: con, instr: "FLES", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              fles    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011100 CZI DDDDDDDDD SSSSSSSSS        SUMC    D,S/#       {WC/WZ/WCZ}
-  def sumc(all=%{addr: addr, con: con, instr: "SUMC", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def sumc(all=%{addr: addr, con: con, instr: "SUMC", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              sumc    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011101 CZI DDDDDDDDD SSSSSSSSS        SUMNC   D,S/#       {WC/WZ/WCZ}
-  def sumnc(all=%{addr: addr, con: con, instr: "SUMNC", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def sumnc(all=%{addr: addr, con: con, instr: "SUMNC", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              sumnc   #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0011110 CZI DDDDDDDDD SSSSSSSSS        SUMZ    D,S/#       {WC/WZ/WCZ}
   def sumz(all=%{addr: addr, con: con, instr: "SUMZ", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -224,14 +265,16 @@ defmodule P2Testing.DisasmCode do
   def testbn(all=%{addr: addr, con: con, instr: "TESTBN", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 0101000 CZI DDDDDDDDD SSSSSSSSS        AND     D,S/#       {WC/WZ/WCZ}
-  def aand(all=%{addr: addr, con: con, instr: "AND", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def aand(all=%{addr: addr, con: con, instr: "AND", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              and     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 0101001 CZI DDDDDDDDD SSSSSSSSS        ANDN    D,S/#       {WC/WZ/WCZ}
   def andn(all=%{addr: addr, con: con, instr: "ANDN", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 0101010 CZI DDDDDDDDD SSSSSSSSS        OR      D,S/#       {WC/WZ/WCZ}
   def oor(all=%{addr: addr, con: con, instr: "OR", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              or     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              or      #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
   end
 
 #                                           EEEE 0101011 CZI DDDDDDDDD SSSSSSSSS        XOR     D,S/#       {WC/WZ/WCZ}
@@ -370,7 +413,7 @@ defmodule P2Testing.DisasmCode do
 
 #                                           EEEE 1001101 10I DDDDDDDDD SSSSSSSSS        SETD    D,S/#
   def setd(all=%{addr: addr, con: con, instr: "SETD", vars: {i,d,s}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              setd     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              setd    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
   end
 
 #                                           EEEE 1001101 11I DDDDDDDDD SSSSSSSSS        SETS    D,S/#
@@ -446,17 +489,21 @@ defmodule P2Testing.DisasmCode do
   def rdlut(all=%{addr: addr, con: con, instr: "RDLUT", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1010110 CZI DDDDDDDDD SSSSSSSSS        RDBYTE  D,S/#/PTRx  {WC/WZ/WCZ}
-  def rdbyte(all=%{addr: addr, con: con, instr: "RDBYTE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def rdbyte(all=%{addr: addr, con: con, instr: "RDBYTE", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              rdbyte  #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 1010111 CZI DDDDDDDDD SSSSSSSSS        RDWORD  D,S/#/PTRx  {WC/WZ/WCZ}
   def rdword(all=%{addr: addr, con: con, instr: "RDWORD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1011000 CZI DDDDDDDDD SSSSSSSSS        RDLONG  D,S/#/PTRx  {WC/WZ/WCZ}
-  def rdlong(all=%{addr: addr, con: con, instr: "RDLONG", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def rdlong(all=%{addr: addr, con: con, instr: "RDLONG", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              rdlong     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 1011001 CZI DDDDDDDDD SSSSSSSSS        CALLD   D,S/#rel9   {WC/WZ/WCZ}
   def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              calld    #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              calld   #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
   end
 
 #                                           EEEE 1011010 0LI DDDDDDDDD SSSSSSSSS        CALLPA  D/#,S/#rel9
@@ -469,7 +516,17 @@ defmodule P2Testing.DisasmCode do
   def djz(all=%{addr: addr, con: con, instr: "DJZ", vars: {i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1011011 01I DDDDDDDDD SSSSSSSSS        DJNZ    D,S/#rel9
-  def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {0,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{tohex(0,s)}"
+  end
+
+  ## Probably needs to be refactored as logic is backwards between this and JMP
+  def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {1,d,s}, fullbin: <<fullbin::size(32)>>}) when addr < 0x400 do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x500, s+1)}"
+  end
+  def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {1,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x0, s)}"
+  end
 
 #                                           EEEE 1011011 10I DDDDDDDDD SSSSSSSSS        DJF     D,S/#rel9
   def djf(all=%{addr: addr, con: con, instr: "DJF", vars: {i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -616,14 +673,16 @@ defmodule P2Testing.DisasmCode do
   def wrlut(all=%{addr: addr, con: con, instr: "WRLUT", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1100010 0LI DDDDDDDDD SSSSSSSSS        WRBYTE  D/#,S/#/PTRx
-  def wrbyte(all=%{addr: addr, con: con, instr: "WRBYTE", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def wrbyte(all=%{addr: addr, con: con, instr: "WRBYTE", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              wrbyte  #{imm?(l)}#{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 1100010 1LI DDDDDDDDD SSSSSSSSS        WRWORD  D/#,S/#/PTRx
   def wrword(all=%{addr: addr, con: con, instr: "WRWORD", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1100011 0LI DDDDDDDDD SSSSSSSSS        WRLONG  D/#,S/#/PTRx
   def wrlong(all=%{addr: addr, con: con, instr: "WRLONG", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              wrlong #{imm?(l)}#{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              wrlong  #{imm?(l)}#{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
   end
 
 #                                           EEEE 1100011 1LI DDDDDDDDD SSSSSSSSS        RDFAST  D/#,S/#
@@ -651,10 +710,14 @@ defmodule P2Testing.DisasmCode do
   def coginit(all=%{addr: addr, con: con, instr: "COGINIT", vars: {c,l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101000 0LI DDDDDDDDD SSSSSSSSS        QMUL    D/#,S/#
-  def qmul(all=%{addr: addr, con: con, instr: "QMUL", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def qmul(all=%{addr: addr, con: con, instr: "QMUL", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              qmul    #{imm?(l)}#{tohex(0,d)}, #{imm?(l)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 1101000 1LI DDDDDDDDD SSSSSSSSS        QDIV    D/#,S/#
-  def qdiv(all=%{addr: addr, con: con, instr: "QDIV", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def qdiv(all=%{addr: addr, con: con, instr: "QDIV", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              qdiv     #{imm?(l)}#{tohex(0,d)}, #{imm?(l)}#{tohex(0,s)}"
+  end
 
 #                                           EEEE 1101001 0LI DDDDDDDDD SSSSSSSSS        QFRAC   D/#,S/#
   def qfrac(all=%{addr: addr, con: con, instr: "QFRAC", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -673,7 +736,7 @@ defmodule P2Testing.DisasmCode do
 
 #                                           EEEE 1101011 C0L DDDDDDDDD 000000001        COGID   D/#         {WC}
   def cogid(all=%{addr: addr, con: con, instr: "COGID", vars: {c,<< 0b0::size(1) >>,l,d,<< 0b00000000::size(8) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cogid #{imm?(l)}#{tohex(0,d)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              cogid   #{imm?(l)}#{tohex(0,d)}"
 
   end
 
@@ -726,10 +789,14 @@ defmodule P2Testing.DisasmCode do
   def wflong(all=%{addr: addr, con: con, instr: "WFLONG", vars: {l,d,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b111::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000011000        GETQX   D           {WC/WZ/WCZ}
-  def getqx(all=%{addr: addr, con: con, instr: "GETQX", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b0000::size(4) >>,<< 0b11::size(2) >>,<< 0b000::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def getqx(all=%{addr: addr, con: con, instr: "GETQX", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b0000::size(4) >>,<< 0b11::size(2) >>,<< 0b000::size(3) >>}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              getqx   #{tohex(0,d)}"
+  end
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000011001        GETQY   D           {WC/WZ/WCZ}
-  def getqy(all=%{addr: addr, con: con, instr: "GETQY", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b0000::size(4) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def getqy(all=%{addr: addr, con: con, instr: "GETQY", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b0000::size(4) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              getqy   #{tohex(0,d)}"
+  end
 
 #                                           EEEE 1101011 000 DDDDDDDDD 000011010        GETCT   D
   def getct(all=%{addr: addr, con: con, instr: "GETCT", vars: {d,<< 0b0000::size(4) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -889,7 +956,7 @@ defmodule P2Testing.DisasmCode do
 
 #                                           EEEE 1101011 00L DDDDDDDDD 000101000        SETQ    D/#
   def setq(all=%{addr: addr, con: con, instr: "SETQ", vars: {l,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              setq     #{imm?(l)}#{tohex(0,d)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              setq    #{imm?(l)}#{tohex(0,d)}"
   end
 
 
@@ -903,14 +970,16 @@ defmodule P2Testing.DisasmCode do
   def pop(all=%{addr: addr, con: con, instr: "POP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101100        JMP     D           {WC/WZ/WCZ}
-  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              jmp     #{tohex(0, d)}"
+  end
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101101        CALL    D           {WC/WZ/WCZ}
   def call(all=%{addr: addr, con: con, instr: "CALL", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101011 CZ1 000000000 000101101        RET                 {WC/WZ/WCZ}
   def ret(all=%{addr: addr, con: con, instr: "RET", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              ret"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              ret     "
   end
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101110        CALLA   D           {WC/WZ/WCZ}
@@ -1076,7 +1145,9 @@ defmodule P2Testing.DisasmCode do
   def drvl(all=%{addr: addr, con: con, instr: "DRVL", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b000::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001011001        DRVH    D/#         {WCZ}
-  def drvh(all=%{addr: addr, con: con, instr: "DRVH", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def drvh(all=%{addr: addr, con: con, instr: "DRVH", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              drvh    #{imm?(l)}#{tohex(0,d)}"
+  end
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001011010        DRVC    D/#         {WCZ}
   def drvc(all=%{addr: addr, con: con, instr: "DRVC", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -1148,11 +1219,13 @@ defmodule P2Testing.DisasmCode do
   def modcz(all=%{addr: addr, con: con, instr: "MODCZ", vars: {c,z,<< 0b1::size(1) >>,<< 0b0::size(1) >>,c,z,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101100 RAA AAAAAAAAA AAAAAAAAA        JMP     #abs/#rel
-  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {r,a}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              jmp     #{relToPC(addr, a)}"
+  end
 
 #                                           EEEE 1101101 RAA AAAAAAAAA AAAAAAAAA        CALL    #abs/#rel
   def call(all=%{addr: addr, con: con, instr: "CALL", vars: {r,a}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              call     #{relToPC(addr, a)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              call    #{relToPC(addr, a)}"
   end
 
   def relToPC(addr, a) when addr < 0x400 do
@@ -1173,19 +1246,21 @@ defmodule P2Testing.DisasmCode do
   def callb(all=%{addr: addr, con: con, instr: "CALLB", vars: {r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 11100WW RAA AAAAAAAAA AAAAAAAAA        CALLD   reg,#abs/#rel
-  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {w,r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {w,r,a}, fullbin: <<fullbin::size(32)>>}) do
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              calld   #{relToPC(addr, a)}"
+  end
 
 #                                           EEEE 11101WW RAA AAAAAAAAA AAAAAAAAA        LOC     reg,#abs/#rel
   def loc(all=%{addr: addr, con: con, instr: "LOC", vars: {w,r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 11110NN NNN NNNNNNNNN NNNNNNNNN        AUGS    #23bits
   def augs(all=%{addr: addr, con: con, instr: "AUGS", vars: {n}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              augs     ##{tohex(0,n)} << 9"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              augs    ##{tohex(0,n)} << 9"
   end
 
 #                                           EEEE 11111NN NNN NNNNNNNNN NNNNNNNNN        AUGD    #23bits
   def augd(all=%{addr: addr, con: con, instr: "AUGD", vars: {n}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              augd     ##{tohex(0,n)} << 9"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              augd    ##{tohex(0,n)} << 9"
   end
 
 
