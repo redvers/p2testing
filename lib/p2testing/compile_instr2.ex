@@ -26,7 +26,20 @@ defmodule P2Testing.CompileInstr2 do
   def matchmatch(text,f,g,h) do
     [_,instr,rest] = Regex.run(~r/^([01]+)(.+)$/, text)
     "  def #{String.downcase(f)}(all=%{addr: addr, con: con, instr: \"#{f}\", vars: {#{dvars(rest)}}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)\n"
+    #  wr_func(dvars(rest))
   end
+
+  #  def wr_func({c,z,i,d,s}) do
+  #"""
+  #  def #{String.downcase(f)}(all=%{addr: addr, con: con, instr: \"#{f}\", vars: {#{dvars(rest)}}, fullbin: <<fullbin::size(32)>>}) do
+  #    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              ror     #{tohex(0,d)}, #{imm?(i)}#{tohex(0,s)}"
+  #    ExPrintf.sprintf("%04x %08x %11s %5s %9s %9s", [addr,fullbin,disasm_c(<<con::size(4)>>),"call",d,"
+
+
+
+
+
+
 
   def d(text) when is_binary(text) do
     text
