@@ -12,9 +12,16 @@ defmodule P2Testing.DisasmCode do
   end
   def divCog?(addr, a), do: a
 
-
+  def castSigned5(inv) do
+    <<out::signed-size(5)>> = <<inv::unsigned-size(5)>>
+    out
+  end
   def castSigned9(inv) do
     <<out::signed-size(9)>> = <<inv::unsigned-size(9)>>
+    out
+  end
+  def castSigned20(inv) do
+    <<out::signed-size(20)>> = <<inv::unsigned-size(20)>>
     out
   end
 
@@ -403,7 +410,7 @@ defmodule P2Testing.DisasmCode do
   def rdlong(all=%{addr: addr, con: con, instr: "RDLONG", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"rdlong",tohex(0,d),"#{imm?(i)}#{tohex(0,s)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1011001 CZI DDDDDDDDD SSSSSSSSS        CALLD   D,S/#rel9   {WC/WZ/WCZ}
-  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld",tohex(0,d),"#{imm?(i)}#{tohex(0,s)}#{wcz?(c,z)}"])
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {c,z,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("czi %04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld",tohex(0,d),"#{imm?(i)}#{tohex(0,s)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1011010 0LI DDDDDDDDD SSSSSSSSS        CALLPA  D/#,S/#rel9
   def callpa(all=%{addr: addr, con: con, instr: "CALLPA", vars: {l,i,d,s}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
@@ -421,10 +428,10 @@ defmodule P2Testing.DisasmCode do
 
   ## Probably needs to be refactored as logic is backwards between this and JMP
   def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {1,d,s}, fullbin: <<fullbin::size(32)>>}) when addr < 0x400 do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x500, s+1)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x500, s+1, 1)}"
   end
   def djnz(all=%{addr: addr, con: con, instr: "DJNZ", vars: {1,d,s}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x0, s)}"
+    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              djnz    #{tohex(0,d)}, #{relToPC(0x0, s, 1)}"
   end
 
 #                                           EEEE 1011011 10I DDDDDDDDD SSSSSSSSS        DJF     D,S/#rel9
@@ -1118,24 +1125,67 @@ defmodule P2Testing.DisasmCode do
   def modcz(all=%{addr: addr, con: con, instr: "MODCZ", vars: {c,z,<< 0b1::size(1) >>,<< 0b0::size(1) >>,c,z,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
 #                                           EEEE 1101100 RAA AAAAAAAAA AAAAAAAAA        JMP     #abs/#rel
-  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {r,a}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              jmp     #{relToPC(addr, a)}"
-  end
+  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"jmp",jumprDecode(addr, a, r)])
 
 #                                           EEEE 1101101 RAA AAAAAAAAA AAAAAAAAA        CALL    #abs/#rel
-  def call(all=%{addr: addr, con: con, instr: "CALL", vars: {r,a}, fullbin: <<fullbin::size(32)>>}) do
-    #    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              call    #{relToPC(addr, a)}"
-    ExPrintf.sprintf("%04x %08x %11s %5s %9s %9s", [addr,fullbin,disasm_c(<<con::size(4)>>),"call",relToPC(addr, a),""])
+  def call(all=%{addr: addr, con: con, instr: "CALL", vars: {r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"call",relToPC(addr, a, r)])
+
+  def jumprDecode(addr, a, 0) do
+    "ABS! #{tohex(0,a)}"
+  end
+  def jumprDecode(addr, a, 1) when addr < 0x400 do
+    offset = castSigned20(a)
+    case (offset >= 0) do
+      true  -> "#$+#{tohex(0,div(castSigned20(a),4)+1)}"
+      false -> "#$-#{tohex(0, :erlang.abs(div(castSigned20(a),4)+1))}"
+    end
   end
 
-  def relToPC(addr, a) when addr < 0x400 do
-    relToPC(0x500, div(a,4)+1) # stop infinity
+  def jumprDecode(addr, a, 1) do
+        offset = castSigned20(a)
+        case (offset >= 0) do
+          true  -> "#$+#{tohex(0, castSigned20(a)+4)}"
+          false -> "#$-#{tohex(0, :erlang.abs(castSigned20(a))-4)}"
+        end
   end
-  def relToPC(_addr, a) do
-    offset = castSigned9(a)
+
+
+  def calldDecode(addr, a, 0, base) do
+    "ABS! #{tohex(0,a)}"
+  end
+  def calldDecode(addr, a, 1, base) when addr < 0x400 do
+    offset = castSignedbase(a,base)
     case (offset >= 0) do
-      true -> "#$+#{tohex(0,offset)}"
-     false -> "#$#{tohex(0,offset)}"
+      true  -> "#$+#{tohex(0,div(castSignedbase(a,base),4)+1)}"
+      false -> "#$-#{tohex(0, :erlang.abs(div(castSignedbase(a,base),4)+1))}"
+    end
+  end
+
+  def calldDecode(addr, a, 1, base) do
+        offset = castSignedbase(a,base)
+        case (offset >= 0) do
+          true  -> "#$+#{tohex(0, castSignedbase(a,base)+4)}"
+          false -> "#$-#{tohex(0, :erlang.abs(castSignedbase(a,base))-4)}"
+        end
+  end
+
+
+  def castSignedbase(inv,base) do
+    <<out::signed-size(base)>> = <<inv::unsigned-size(base)>>
+    out
+  end
+
+
+  def relToPC(addr, a, r) when addr < 0x400 do
+    relToPC(0x500, div(a,4)+1, r) # stop infinity
+  end
+  def relToPC(_addr, a, r) do
+    offset = castSigned9(a)
+    case {(offset >= 0), r} do
+      {true, 1}  -> "#$+#{tohex(0,offset)}"
+      {false, 1} -> "#$#{tohex(0,offset)}"
+      {true, 0}  -> "#\\#{tohex(0,offset)}"
+      {false, 0} -> "#\\#{tohex(0,offset)}"
     end
   end
 
@@ -1145,10 +1195,11 @@ defmodule P2Testing.DisasmCode do
 #                                           EEEE 1101111 RAA AAAAAAAAA AAAAAAAAA        CALLB   #abs/#rel
   def callb(all=%{addr: addr, con: con, instr: "CALLB", vars: {r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
 
-#                                           EEEE 11100WW RAA AAAAAAAAA AAAAAAAAA        CALLD   reg,#abs/#rel
-  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {w,r,a}, fullbin: <<fullbin::size(32)>>}) do
-    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              calld   #{relToPC(addr, a)}"
-  end
+  #                                           EEEE 11100WW RAA AAAAAAAAA AAAAAAAAA        CALLD   reg,#abs/#rel (#{tohex(0,div(castSigned20(a),4)+1)}"CALLD   PA/PB/PTRA/PTRB,#A)
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {0,r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld","$1f6",calldDecode(addr, a, r, 22)])
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {1,r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld","$1f7",calldDecode(addr, a, r, 22)])
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {2,r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld","$1f8",calldDecode(addr, a, r, 22)])
+  def calld(all=%{addr: addr, con: con, instr: "CALLD", vars: {3,r,a}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calld","$1f9",calldDecode(addr, a, r, 22)])
 
 #                                           EEEE 11101WW RAA AAAAAAAAA AAAAAAAAA        LOC     reg,#abs/#rel
   def loc(all=%{addr: addr, con: con, instr: "LOC", vars: {w,r,a}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
