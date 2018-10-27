@@ -597,8 +597,9 @@ defmodule P2Testing.Disasm2 do
 #                                           EEEE 1101011 C0L DDDDDDDDD 000000110        LOCKTRY D/#         {WC}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101011::size(7) ,c::size(1),0b0::size(1),l::size(1),d::size(9),0b000000::size(6),0b11::size(2),0b0::size(1),>>), do: funct.(%{addr: addr,con: con, instr: "LOCKTRY", vars: {c,<< 0b0::size(1) >>,l,d,<< 0b000000::size(6) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: fullbin})
 
-#                                           EEEE 1101011 00L DDDDDDDDD 000000111        LOCKREL D/#         {WC}
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b110101100::size(9) ,l::size(1),d::size(9),0b000000::size(6),0b111::size(3),>>), do: funct.(%{addr: addr,con: con, instr: "LOCKREL", vars: {l,d,<< 0b000000::size(6) >>,<< 0b111::size(3) >>}, fullbin: fullbin})
+### MANUALLY ADDED C AS I THINK IT'S MISSING
+#                                           EEEE 1101011 C0L DDDDDDDDD 000000111        LOCKREL D/#         {WC}
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101011::size(7), c::size(1), 0b0::size(1),l::size(1),d::size(9),0b000000::size(6),0b111::size(3),>>), do: funct.(%{addr: addr,con: con, instr: "LOCKREL", vars: {c,l,d,<< 0b000000::size(6) >>,<< 0b111::size(3) >>}, fullbin: fullbin})
 
 #                                           EEEE 1101011 00L DDDDDDDDD 000001110        QLOG    D/#
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b110101100::size(9) ,l::size(1),d::size(9),0b00000::size(5),0b111::size(3),0b0::size(1),>>), do: funct.(%{addr: addr,con: con, instr: "QLOG", vars: {l,d,<< 0b00000::size(5) >>,<< 0b111::size(3) >>,<< 0b0::size(1) >>}, fullbin: fullbin})
