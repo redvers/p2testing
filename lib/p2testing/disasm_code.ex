@@ -625,14 +625,14 @@ def wrbyte(all=%{addr: addr, con: con, instr: "WRBYTE", vars: {l,i,d,s}, fullbin
   def hubset(all=%{addr: addr, con: con, instr: "HUBSET", vars: {l,d,<< 0b000000000::size(9) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"hubset","#{imm?(l)}#{tohex(0,d)}"])
 
 #                                           EEEE 1101011 C0L DDDDDDDDD 000000001        COGID   D/#         {WC}
-  def cogid(all=%{addr: addr, con: con, instr: "COGID", vars: {c,<< 0b0::size(1) >>,l,d,<< 0b00000000::size(8) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"cogid","#{imm?(l)}#{tohex(0,d)}"])
+  def cogid(all=%{addr: addr, con: con, instr: "COGID", vars: {c,<< 0b0::size(1) >>,l,d,<< 0b00000000::size(8) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"cogid","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,0)}"])
 
 #                                           EEEE 1101011 00L DDDDDDDDD 000000011        COGSTOP D/#
   def cogstop(all=%{addr: addr, con: con, instr: "COGSTOP", vars: {l,d,<< 0b0000000::size(7) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"cogstop","#{imm?(l)}#{tohex(0,d)}"])
 
 
 #                                           EEEE 1101011 C00 DDDDDDDDD 000000100        LOCKNEW D           {WC}
-  def locknew(all=%{addr: addr, con: con, instr: "LOCKNEW", vars: {c,<< 0b00::size(2) >>,d,<< 0b000000::size(6) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s, %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"locknew","#{tohex(0,d)}","#{wcz?(c,0)}"])
+  def locknew(all=%{addr: addr, con: con, instr: "LOCKNEW", vars: {c,<< 0b00::size(2) >>,d,<< 0b000000::size(6) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s%s", [addr,fullbin,disasm_c(<<con::size(4)>>),"locknew","#{tohex(0,d)}","#{wcz?(c,0)}"])
 
 #                                           EEEE 1101011 00L DDDDDDDDD 000000101        LOCKRET D/#
   def lockret(all=%{addr: addr, con: con, instr: "LOCKRET", vars: {l,d,<< 0b000000::size(6) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"lockret","#{imm?(l)}#{tohex(0,d)}"])
@@ -802,10 +802,10 @@ def wrbyte(all=%{addr: addr, con: con, instr: "WRBYTE", vars: {l,i,d,s}, fullbin
   def waitatn(all=%{addr: addr, con: con, instr: "WAITATN", vars: {c,z,<< 0b00000::size(5) >>,<< 0b1111::size(4) >>,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s%s", [addr,fullbin,disasm_c(<<con::size(4)>>),"waitatn","","#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 000 000100000 000100100        ALLOWI
-  def allowi(all=%{addr: addr, con: con, instr: "ALLOWI", vars: {<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s", [addr,fullbin,disasm_c(<<con::size(4)>>),"allowi"])
+  def allowi(all=%{addr: addr, con: con, instr: "ALLOWI", vars: {<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s ", [addr,fullbin,disasm_c(<<con::size(4)>>),"allowi"])
 
 #                                           EEEE 1101011 000 000100001 000100100        STALLI
-  def stalli(all=%{addr: addr, con: con, instr: "STALLI", vars: {<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s", [addr,fullbin,disasm_c(<<con::size(4)>>),"stalli"])
+  def stalli(all=%{addr: addr, con: con, instr: "STALLI", vars: {<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s ", [addr,fullbin,disasm_c(<<con::size(4)>>),"stalli"])
 
 #                                           EEEE 1101011 000 000100010 000100100        TRGINT1
   def trgint1(all=%{addr: addr, con: con, instr: "TRGINT1", vars: {<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s", [addr,fullbin,disasm_c(<<con::size(4)>>),"trgint1"])
@@ -848,27 +848,25 @@ def wrbyte(all=%{addr: addr, con: con, instr: "WRBYTE", vars: {l,i,d,s}, fullbin
   def pop(all=%{addr: addr, con: con, instr: "POP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"pop","#{tohex(0,d)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101100        JMP     D           {WC/WZ/WCZ}
-  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
-#    asm = "#{tohex4(addr)} #{tohex8(fullbin)}              jmp s   #{tohex(0, d)}"
-#  end
+  def jmp(all=%{addr: addr, con: con, instr: "JMP", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"jmp","#{tohex(0,d)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101101        CALL    D           {WC/WZ/WCZ}
-  def call(all=%{addr: addr, con: con, instr: "CALL", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def call(all=%{addr: addr, con: con, instr: "CALL", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"call","#{tohex(0,d)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ1 000000000 000101101        RET                 {WC/WZ/WCZ}
   def ret(all=%{addr: addr, con: con, instr: "RET", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"ret",wcz?(c,z)])
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101110        CALLA   D           {WC/WZ/WCZ}
-  def calla(all=%{addr: addr, con: con, instr: "CALLA", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b111::size(3) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def calla(all=%{addr: addr, con: con, instr: "CALLA", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b111::size(3) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"calla","#{tohex(0,d)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ1 000000000 000101110        RETA                {WC/WZ/WCZ}
-  def reta(all=%{addr: addr, con: con, instr: "RETA", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b111::size(3) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def reta(all=%{addr: addr, con: con, instr: "RETA", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b111::size(3) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"reta","#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ0 DDDDDDDDD 000101111        CALLB   D           {WC/WZ/WCZ}
-  def callb(all=%{addr: addr, con: con, instr: "CALLB", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def callb(all=%{addr: addr, con: con, instr: "CALLB", vars: {c,z,<< 0b0::size(1) >>,d,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"callb","#{tohex(0,d)}#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 CZ1 000000000 000101111        RETB                {WC/WZ/WCZ}
-  def retb(all=%{addr: addr, con: con, instr: "RETB", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: IO.inspect(all)
+  def retb(all=%{addr: addr, con: con, instr: "RETB", vars: {c,z,<< 0b1::size(1) >>,<< 0b000000000000::size(12) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"retb","#{wcz?(c,z)}"])
 
 #                                           EEEE 1101011 00L DDDDDDDDD 000110000        JMPREL  D/#
   def jmprel(all=%{addr: addr, con: con, instr: "JMPREL", vars: {l,d,<< 0b000::size(3) >>,<< 0b11::size(2) >>,<< 0b0000::size(4) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"jmprel","#{imm?(l)}#{tohex(0,d)}"])
@@ -925,49 +923,57 @@ def getbrk(all=%{addr: addr, con: con, instr: "GETBRK", vars: {c,z,<< 0b0::size(
   def dirl(all=%{addr: addr, con: con, instr: "DIRL", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000000::size(6) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirl","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000000        TESTP   D/#         WC/WZ
-  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000000::size(6) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000000::size(6) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} wz"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000000::size(6) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} wc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000001        DIRH    D/#         {WCZ}
   def dirh(all=%{addr: addr, con: con, instr: "DIRH", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00000::size(5) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirh","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000001        TESTPN  D/#         WC/WZ
-  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00000::size(5) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00000::size(5) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} wz"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00000::size(5) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} wc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000010        DIRC    D/#         {WCZ}
   def dirc(all=%{addr: addr, con: con, instr: "DIRC", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirc","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000010        TESTP   D/#         ANDC/ANDZ
-  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} andz"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} andc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000011        DIRNC   D/#         {WCZ}
   def dirnc(all=%{addr: addr, con: con, instr: "DIRNC", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirnc","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000011        TESTPN  D/#         ANDC/ANDZ
-  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} andz"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0000::size(4) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} andc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000100        DIRZ    D/#         {WCZ}
   def dirz(all=%{addr: addr, con: con, instr: "DIRZ", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirz","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000100        TESTP   D/#         ORC/ORZ
-  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} orz"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} orc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000101        DIRNZ   D/#         {WCZ}
   def dirnz(all=%{addr: addr, con: con, instr: "DIRNZ", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirnz","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000101        TESTPN  D/#         ORC/ORZ
-  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} orz"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} orc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000110        DIRRND  D/#         {WCZ}
   def dirrnd(all=%{addr: addr, con: con, instr: "DIRRND", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirrnd","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000110        TESTP   D/#         XORC/XORZ
-  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} xorz"])
+  def testp(all=%{addr: addr, con: con, instr: "TESTP", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testp","#{imm?(l)}#{tohex(0,d)} xorc"])
 
 #                                           EEEE 1101011 CcL DDDDDDDDD 001000111        DIRNOT  D/#         {WCZ}
   def dirnot(all=%{addr: addr, con: con, instr: "DIRNOT", vars: {c,c,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b111::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"dirnot","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,c)}"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001000111        TESTPN  D/#         XORC/XORZ
-  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b111::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {0,1,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b111::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} xorz"])
+  def testpn(all=%{addr: addr, con: con, instr: "TESTPN", vars: {1,0,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>,<< 0b111::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"testpn","#{imm?(l)}#{tohex(0,d)} xorc"])
 
 #                                           EEEE 1101011 CZL DDDDDDDDD 001001000        OUTL    D/#         {WCZ}
   def outl(all=%{addr: addr, con: con, instr: "OUTL", vars: {c,z,l,d,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b000::size(3) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"outl","#{imm?(l)}#{tohex(0,d)}#{wcz?(c,z)}"])
@@ -1054,10 +1060,10 @@ def getbrk(all=%{addr: addr, con: con, instr: "GETBRK", vars: {c,z,<< 0b0::size(
   def mergew(all=%{addr: addr, con: con, instr: "MERGEW", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b000::size(3) >>,<< 0b11::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"mergew","#{tohex(0,d)}"])
 
 #                                           EEEE 1101011 000 DDDDDDDDD 001100100        SEUSSF  D
-  def seussf(all=%{addr: addr, con: con, instr: "SEUSSF", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"suessf","#{tohex(0,d)}"])
+  def seussf(all=%{addr: addr, con: con, instr: "SEUSSF", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b00::size(2) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"seussf","#{tohex(0,d)}"])
 
 #                                           EEEE 1101011 000 DDDDDDDDD 001100101        SEUSSR  D
-  def seussr(all=%{addr: addr, con: con, instr: "SEUSSR", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"seussf","#{tohex(0,d)}"])
+  def seussr(all=%{addr: addr, con: con, instr: "SEUSSR", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b1::size(1) >>,<< 0b0::size(1) >>,<< 0b1::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"seussr","#{tohex(0,d)}"])
 
 #                                           EEEE 1101011 000 DDDDDDDDD 001100110        RGBSQZ  D
   def rgbsqz(all=%{addr: addr, con: con, instr: "RGBSQZ", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>}, fullbin: <<fullbin::size(32)>>}), do: ExPrintf.sprintf("%04x %08x %-12s %-7s %s", [addr,fullbin,disasm_c(<<con::size(4)>>),"rgbsqz","#{tohex(0,d)}"])
@@ -1197,9 +1203,9 @@ def getbrk(all=%{addr: addr, con: con, instr: "GETBRK", vars: {c,z,<< 0b0::size(
   def disasm_c(<<0b1000::size(4)>>), do: "if_z_and_c"
   def disasm_c(<<0b1001::size(4)>>), do: "if_z_eq_c"
   def disasm_c(<<0b1010::size(4)>>), do: "if_z"
-  def disasm_c(<<0b1011::size(4)>>), do: "if_c_or_nz"
+  def disasm_c(<<0b1011::size(4)>>), do: "if_z_or_nc"
   def disasm_c(<<0b1100::size(4)>>), do: "if_c"
-  def disasm_c(<<0b1101::size(4)>>), do: "if_z_or_nc"
+  def disasm_c(<<0b1101::size(4)>>), do: "if_nz_or_c"
   def disasm_c(<<0b1110::size(4)>>), do: "if_z_or_c"
   def disasm_c(<<0b1111::size(4)>>), do: ""
 
