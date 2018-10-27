@@ -24,10 +24,15 @@ defmodule P2Testing.Disasm do
     |> Enum.reject(fn(x) -> Regex.match?(~r/p2dump$/, x) end)
     |> Enum.reject(fn(x) -> Regex.match?(~r/spin2$/, x) end)
     |> Enum.reject(fn(x) -> Regex.match?(~r/lst$/, x) end)
+    |> Enum.reject(fn(x) -> Regex.match?(~r/fpga$/, x) end)
     |> Enum.reject(fn(x) -> (x == "advanced") end)
     |> Enum.map(fn(x) -> tfile("verify/#{x}") end)
   end
 
+  def d(<<s::size(32)>>) do
+    <<c::size(4), i::size(7), cz::size(3), d::size(9), s::size(9)>> = <<s::size(32)>>
+    ExPrintf.sprintf("%04b %07b %03b %09b %09b", [c,i,cz,d,s])
+  end
 
 
   def map_wtfs(map = %{addr: addr, fullbin: <<fullbin::size(32)>>}) when is_map(map) do

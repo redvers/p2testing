@@ -534,7 +534,7 @@ defmodule P2Testing.Disasm2 do
 #                                           EEEE 1100010 1LI DDDDDDDDD SSSSSSSSS        WRWORD  D/#,S/#/PTRx
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b11000101::size(8) ,l::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "WRWORD", vars: {l,i,d,s}, fullbin: fullbin})
 
-#                                           EEEE 1100011 0LI DDDDDDDDD SSSSSSSSS        WRLONG  D/#,S/#/PTRx
+#                                           EEEE 1100011 0LI DDDDDDDDD 1SUPNNNNN        WRLONG  D/#,S/#/PTRx
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b11000110::size(8) ,l::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "WRLONG", vars: {l,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 1100011 1LI DDDDDDDDD SSSSSSSSS        RDFAST  D/#,S/#
@@ -1046,7 +1046,7 @@ defmodule P2Testing.Disasm2 do
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101011000::size(10) ,d::size(9),0b00::size(2),0b11::size(2),0b0::size(1),0b1111::size(4),>>), do: funct.(%{addr: addr,con: con, instr: "WRNZ", vars: {d,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: fullbin})
 
 #                                           EEEE 1101011 CZ1 0cccczzzz 001101111        MODCZ   c,z         {WC/WZ/WCZ}
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101011::size(7) ,c::size(1),z::size(1),0b1::size(1),0b0::size(1),c::size(4),z::size(4),0b00::size(2),0b11::size(2),0b0::size(1),0b1111::size(4),>>), do: funct.(%{addr: addr,con: con, instr: "MODCZ", vars: {c,z,<< 0b1::size(1) >>,<< 0b0::size(1) >>,c,z,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101011::size(7) ,c::size(1),z::size(1),0b1::size(1),0b0::size(1),cflags::size(4),zflags::size(4),0b00::size(2),0b11::size(2),0b0::size(1),0b1111::size(4),>>), do: funct.(%{addr: addr,con: con, instr: "MODCZ", vars: {c,z,<< 0b1::size(1) >>,<< 0b0::size(1) >>,cflags,zflags,<< 0b00::size(2) >>,<< 0b11::size(2) >>,<< 0b0::size(1) >>,<< 0b1111::size(4) >>}, fullbin: fullbin})
 
 #                                           EEEE 1101100 RAA AAAAAAAAA AAAAAAAAA        JMP     #abs/#rel
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b1101100::size(7) ,r::size(1),a::size(20),>>), do: funct.(%{addr: addr,con: con, instr: "JMP", vars: {r,a}, fullbin: fullbin})
