@@ -100,49 +100,49 @@ defmodule P2Testing.Disasm2 do
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100000::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITL", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100000 CZI DDDDDDDDD SSSSSSSSS        TESTB   D,S/#       WC/WZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100000::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100000::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {0b0100000,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100001 CcI DDDDDDDDD SSSSSSSSS        BITH    D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100001::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITH", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100001 CZI DDDDDDDDD SSSSSSSSS        TESTBN  D,S/#       WC/WZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100001::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100001::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {0b0100001,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100010 CcI DDDDDDDDD SSSSSSSSS        BITC    D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100010::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITC", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100010 CZI DDDDDDDDD SSSSSSSSS        TESTB   D,S/#       ANDC/ANDZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100010::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100010::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {0b0100010,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100011 CcI DDDDDDDDD SSSSSSSSS        BITNC   D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100011::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITNC", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100011 CZI DDDDDDDDD SSSSSSSSS        TESTBN  D,S/#       ANDC/ANDZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100011::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100011::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {0b0100011,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100100 CcI DDDDDDDDD SSSSSSSSS        BITZ    D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100100::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITZ", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100100 CZI DDDDDDDDD SSSSSSSSS        TESTB   D,S/#       ORC/ORZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100100::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100100::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {0b0100100,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100101 CcI DDDDDDDDD SSSSSSSSS        BITNZ   D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100101::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITNZ", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100101 CZI DDDDDDDDD SSSSSSSSS        TESTBN  D,S/#       ORC/ORZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100101::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100101::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {0b0100101,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100110 CcI DDDDDDDDD SSSSSSSSS        BITRND  D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100110::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITRND", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100110 CZI DDDDDDDDD SSSSSSSSS        TESTB   D,S/#       XORC/XORZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100110::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100110::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTB", vars: {0b0100110,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100111 CcI DDDDDDDDD SSSSSSSSS        BITNOT  D,S/#       {WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100111::size(7) ,c::size(1),c::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "BITNOT", vars: {c,c,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0100111 CZI DDDDDDDDD SSSSSSSSS        TESTBN  D,S/#       XORC/XORZ
-  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100111::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {c,z,i,d,s}, fullbin: fullbin})
+  def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0100111::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "TESTBN", vars: {0b0100111,c,z,i,d,s}, fullbin: fullbin})
 
 #                                           EEEE 0101000 CZI DDDDDDDDD SSSSSSSSS        AND     D,S/#       {WC/WZ/WCZ}
   def disasmInstr(funct, addr, fullbin = <<con::size(4), 0b0101000::size(7) ,c::size(1),z::size(1),i::size(1),d::size(9),s::size(9),>>), do: funct.(%{addr: addr,con: con, instr: "AND", vars: {c,z,i,d,s}, fullbin: fullbin})

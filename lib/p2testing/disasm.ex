@@ -1,4 +1,4 @@
-
+require Logger
 defmodule P2Testing.Disasm do
   def tfile do
      t = dfile("testops.bin")
@@ -7,6 +7,28 @@ defmodule P2Testing.Disasm do
  
     File.write!("nopandjmp-disasm.dasm", t <> "\n")
   end
+  def tfile(filename) do
+    Logger.debug(filename)
+     t = dfile(filename)
+     |> Enum.map(&map_wtfs/1)
+     |> Enum.join("\n")
+ 
+    File.write!("#{filename}.dasm", t <> "\n")
+  end
+
+  def tsuite do
+    File.ls!("verify/")
+    |> Enum.sort
+    |> Enum.reverse
+    |> Enum.reject(fn(x) -> Regex.match?(~r/dasm$/, x) end)
+    |> Enum.reject(fn(x) -> Regex.match?(~r/p2dump$/, x) end)
+    |> Enum.reject(fn(x) -> Regex.match?(~r/spin2$/, x) end)
+    |> Enum.reject(fn(x) -> Regex.match?(~r/lst$/, x) end)
+    |> Enum.reject(fn(x) -> (x == "advanced") end)
+    |> Enum.map(fn(x) -> tfile("verify/#{x}") end)
+  end
+
+
 
   def map_wtfs(map = %{addr: addr, fullbin: <<fullbin::size(32)>>}) when is_map(map) do
     <<con::size(4), instr::size(7), czi::size(3), d::size(9), s::size(9)>> = <<fullbin::size(32)>>
@@ -39,7 +61,12 @@ defmodule P2Testing.Disasm do
     asm = P2Testing.Disasm2.disasmInstr(&applydisassemble/1, addr, <<long::size(32)>>) |> IO.inspect
     dissassemble({rest, addr + 4}, [asm | acc])
   end
+  def dissassemble({<<discard>>, addr}, acc) do
+    Logger.debug("Discarding: #{inspect(discard)}")
+    dissassemble({<<>>, addr + 4}, [ "DISCARDED: #{inspect(discard)}" | acc])
+  end
 
+  def applydisassemble(map=%{instr: "<empty>"}), do: apply(P2Testing.DisasmCode, :empty, [map])  # Reserved Word
   def applydisassemble(map=%{instr: "AND"}), do: apply(P2Testing.DisasmCode, :aand, [map])  # Reserved Word
   def applydisassemble(map=%{instr: "OR"}),  do: apply(P2Testing.DisasmCode, :oor, [map])   # Reserved Word
   def applydisassemble(map=%{instr: instr}) do
